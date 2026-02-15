@@ -1,0 +1,55 @@
+erDiagram
+    GAME_META ||--|| BOARD_STATE : has
+    GAME_META ||--o{ TURN_LOG : records
+    GAME_META ||--o{ PREDICTION_BOARD : has_per_player
+    PLAYER_GAMES_INDEX }o--|| GAME_META : indexes
+
+    GAME_META {
+        string game_id PK
+        string status "waiting|inProgress|finished"
+        int turn
+        string current_player_id
+        string player_a_id
+        string player_b_id
+        string winner_id
+        string created_at
+        string updated_at
+        string redis_key "game:{gameId}:meta (Hash)"
+    }
+
+    BOARD_STATE {
+        string game_id PK
+        string cells_json "5x5 occupancy"
+        string submarines_json "id->ownerId,x,y,hp,sunk"
+        string redis_key "game:{gameId}:board (String JSON)"
+    }
+
+    TURN_LOG {
+        string game_id FK
+        int turn
+        string player_id
+        string action_type
+        string target_json
+        string direction
+        int distance
+        string attack_report
+        string move_report
+        string error_code
+        string created_at
+        string redis_key "game:{gameId}:logs (List JSON)"
+    }
+
+    PREDICTION_BOARD {
+        string game_id FK
+        string player_id
+        string score_grid_json "int[5][5]"
+        string possible_enemy_count_json "int[5][5]"
+        string updated_at
+        string redis_key "game:{gameId}:prediction:{playerId} (String JSON)"
+    }
+
+    PLAYER_GAMES_INDEX {
+        string player_id PK
+        string game_ids_set "Set<gameId>"
+        string redis_key "player:{playerId}:games (Set)"
+    }

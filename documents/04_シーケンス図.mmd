@@ -1,0 +1,84 @@
+sequenceDiagram
+    autonumber
+    actor U as User
+    participant H as GameHandler
+    participant GS as GameService
+    participant GR as UpstashGameRepository
+    participant PGR as UpstashPlayerGamesIndexRepository
+    participant CDS as CpuDecisionService
+    participant CP as RandomCpuPlayer
+    participant CAS as CpuAnalysisService
+    participant TLR as UpstashTurnLogRepository
+    participant PR as UpstashPredictionRepository
+    participant R as Upstash/Redis
+
+    rect rgb(240, 248, 255)
+        Note over U,R: 1. ゲーム初期化
+        U->>H: handleInitialize(playerAId, playerBId)
+        H->>GS: initializeGame(playerAId, playerBId)
+        GS->>GS: Game.start() / Board.placeSubmarine(...)
+        GS->>GR: save(game)
+        GR->>R: HSET game:{gameId}:meta ...
+        GR->>R: SET game:{gameId}:board ...
+        GS->>PGR: addGame(playerAId, gameId)
+        PGR->>R: SADD player:{playerAId}:games {gameId}
+        GS->>PGR: addGame(playerBId, gameId)
+        PGR->>R: SADD player:{playerBId}:games {gameId}
+        GS-->>H: InitializeGameResponse
+        H-->>U: 200 OK
+    end
+
+    rect rgb(245, 255, 245)
+        Note over U,R: 2. 1リクエスト内のターン実行（手番プレイヤー種別で分岐）
+        U->>H: handleAction(ExecuteActionRequest)
+        H->>GS: executeTurn(gameId, actionCommand)
+        GS->>GR: findById(gameId)
+        GR->>R: HGETALL game:{gameId}:meta
+        GR->>R: GET game:{gameId}:board
+        GR-->>GS: Game + Board
+        alt 現在手番がCPU
+            GS->>CDS: decideAction(game, playerId)
+            CDS->>CP: decide(game)
+            CP-->>CDS: ActionCommand
+            CDS-->>GS: ActionCommand
+            GS->>GS: executeCpuTurn(gameId, playerId)\nGame.apply(command)
+            GS->>CAS: updatePrediction(gameId, playerId)
+            CAS->>PR: find(gameId, playerId)
+            PR->>R: GET game:{gameId}:prediction:{playerId}
+            PR-->>CAS: PredictionBoard
+            CAS->>CAS: markHit/markMiss/increaseLikelihood
+            CAS->>PR: save(gameId, playerId, board)
+            PR->>R: SET game:{gameId}:prediction:{playerId} ...
+            GS->>CAS: recordTurn(gameId, turnLog)
+            CAS->>TLR: append(turnLog)
+            TLR->>R: RPUSH game:{gameId}:logs ...
+            GS->>GR: save(game)
+            GR->>R: HSET game:{gameId}:meta ...
+            GR->>R: SET game:{gameId}:board ...
+        else 現在手番が人間
+            GS->>GS: Game.apply(command)\nBoard.moveSubmarine/findTargets\nSubmarine.isSunk()
+            GS->>GR: save(game)
+            GR->>R: HSET game:{gameId}:meta ...
+            GR->>R: SET game:{gameId}:board ...
+            GS->>CAS: recordTurn(gameId, turnLog)
+            CAS->>TLR: append(turnLog)
+            TLR->>R: RPUSH game:{gameId}:logs ...
+        end
+        GS-->>H: ExecuteActionResponse
+        H-->>U: 200 OK
+    end
+
+    rect rgb(248, 248, 255)
+        Note over U,R: 3. 状態取得
+        U->>H: handleState(gameId, viewerPlayerId)
+        H->>GS: getGameState(gameId, viewerPlayerId)
+        GS->>GR: findById(gameId)
+        GR->>R: HGETALL game:{gameId}:meta
+        GR->>R: GET game:{gameId}:board
+        GS->>TLR: findByGameId(gameId)
+        TLR->>R: LRANGE game:{gameId}:logs 0 -1
+        GS->>PR: find(gameId, viewerPlayerId)
+        PR->>R: GET game:{gameId}:prediction:{viewerPlayerId}
+        GS-->>H: GetGameStateResponse(opponentId, board, logs, predictionBoard)
+        H-->>U: 200 OK
+    end
