@@ -10,16 +10,17 @@
 - Git ではそれぞれの作業ごとにブランチと呼ばれる枝をもとの流れから分岐させる.
 - 作業が関連した枝を本流へ戻すことでチームで作業を分担して行うことができる.
 
-
 ## 基本
 
 - リポジトリのクローン: インターネット上で共有されたプロジェクトを自分の環境へ複製する.
+
 ```bash
 # git clone <url>
 git clone https://github.com/szpp-dev-team/submarine-war-visualizer.git
 ```
 
 - ログの確認: 今までの作業内容を見る(<font color="red">重要</font>).
+
 ```bash
 # git log
 git log
@@ -33,6 +34,7 @@ Date:   Mon Feb 16 00:46:04 2026 +0900
 ```
 
 - 状態の確認
+
 ```bash
 # git status
 git status
@@ -45,6 +47,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 ```
 
 - ブランチの移動(<font color="red">超重要</font>)
+
 ```bash
 # git switch -c <ブランチ名> (ブランチを作成して移動)
 git switch -c docs/create-readme
@@ -53,6 +56,7 @@ git switch dev
 ```
 
 - 作業内容の保存(<font color="red">超重要</font>)
+
 ```bash
 # git add ファイル名(変更の追加)
 git add foo.md
@@ -61,6 +65,37 @@ git commit -m "docs: プレイヤークラスを実装."
 ```
 
 - リモート(本流)への変更の反映
+
 ```bash
 git push
 ```
+
+## ルール
+
+### ブランチ名の付け方
+
+今回はブランチ名を`prefix/動詞-名詞-名詞-・・・`とつける. \
+e.g. `feat/create-readme`, `feat/add-cpu-decision-method`
+
+| prefix | 役割 |
+|---| --- |
+| docs | ドキュメントの作成・修正 |
+| feat | コードの追加 |
+| fix | バグ・不具合の修正 |
+| refactor | コードの改善 |
+| file | ファイル・ディレクトリの削除・依存関係の整理等 |
+| chore | 使うな |
+
+### コミットメッセージの書き方
+
+コミットメッセージは`prefix: メッセージ`と書く. \
+e.g. `feat: Playerクラスを実装.`
+
+| prefix | 役割 |
+|---| --- |
+| docs | ドキュメントの作成・修正 |
+| feat | コードの追加 |
+| fix | バグ・不具合の修正 |
+| refactor | コードの改善 |
+| file | ファイル・ディレクトリの削除・依存関係の整理等 |
+| chore | 本当に軽微な修正 |
