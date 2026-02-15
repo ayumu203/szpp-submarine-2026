@@ -69,33 +69,3 @@ git commit -m "docs: プレイヤークラスを実装."
 ```bash
 git push
 ```
-
-## ルール
-
-### ブランチ名の付け方
-
-今回はブランチ名を`prefix/動詞-名詞-名詞-・・・`とつける. \
-e.g. `feat/create-readme`, `feat/add-cpu-decision-method`
-
-| prefix | 役割 |
-|---| --- |
-| docs | ドキュメントの作成・修正 |
-| feat | コードの追加 |
-| fix | バグ・不具合の修正 |
-| refactor | コードの改善 |
-| file | ファイル・ディレクトリの削除・依存関係の整理等 |
-| chore | 使うな |
-
-### コミットメッセージの書き方
-
-コミットメッセージは`prefix: メッセージ`と書く. \
-e.g. `feat: Playerクラスを実装.`
-
-| prefix | 役割 |
-|---| --- |
-| docs | ドキュメントの作成・修正 |
-| feat | コードの追加 |
-| fix | バグ・不具合の修正 |
-| refactor | コードの改善 |
-| file | ファイル・ディレクトリの削除・依存関係の整理等 |
-| chore | 本当に軽微な修正 |
