@@ -2,12 +2,13 @@
     "Initialize": {
         "InitializeGameRequest": {
             "playerAId": "hogehoge1",
-            "playerBId": "gehogeho2"
+            "playerBId": "gehogeho2",
+            "currentPlayerId": [{"x": 3, "y": 1}, {"x": 1, "y": 3}, {"x": 3, "y": 4}, {"x": 5, "y": 5}]
         },
         "InitializeGameResponse": {
             "gameId": "hogemarine2026",
             "status": "inProgress",
-            "turn": 3776,
+            "turn": 1,
             "currentPlayerId": "hogehoge1"
         }
     },
