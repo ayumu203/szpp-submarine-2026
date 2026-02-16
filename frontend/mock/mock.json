@@ -258,6 +258,17 @@
             },
             "logs": [
                 {
+                    "turn": 3776,
+                    "playerId": "hogehoge1",
+                    "actionType": "attack",
+                    "target": {
+                        "x": 1,
+                        "y": 4
+                    },
+                    "attackReport": "waveHigh",
+                    "createdAt": "20260216"
+                },
+                {
                     "turn": 3775,
                     "playerId": "gehogeho2",
                     "actionType": "move",
