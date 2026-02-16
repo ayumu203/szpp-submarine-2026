@@ -14,9 +14,10 @@
 
 ### Response: `InitializeGameResponse`
 - `gameId: string`
-- `status: string`
+- `status: waiting | inProgress | finished`
 - `turn: number`
 - `currentPlayerId: string`
+
 
 ## Action
 ### Request: `ExecuteActionRequest`
@@ -30,12 +31,12 @@
 ### Response: `ExecuteActionResponse`
 - `gameId: string`
 - `turn: number`
-- `attackReport?: "miss" | "hit" | "hitAndSunk" | "waveHigh"`
-- `moveReport?: "moveSuccess" | "moveBlocked"`
+- `attackReport?: "invalidAttack" | "miss" | "hit" | "hitAndSunk" | "waveHigh"`
+- `moveReport?: "moveSuccess" | "moveFailed"`
 - `errorCode?: "invalidTurn" | "invalidAction" | "invalidTarget" | "invalidMoveDistance" | "outOfBoard"`
 - `nextPlayerId: string`
 - `winnerId?: string`
-- `status: "waiting" | "inProgress" | "finished"`
+- `status: "inProgress" | "finished"`
 
 ## State
 ### Request: `GetGameStateRequest`
@@ -45,7 +46,7 @@
 ### Response: `GetGameStateResponse`
 - `gameId: string`
 - `turn: number`
-- `status: string`
+- `status: inProgress | finished`
 - `currentPlayerId: string`
 - `opponentId: string`
 - `board: BoardViewDto`
