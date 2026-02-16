@@ -76,3 +76,5 @@
 ```
 | フロントエンド | ー(HTTP Request)→ |バックエンド| ー(HTTP Request)→ | Upstash |
 ```
+
+![Tech Stack](https://skillicons.dev/icons?i=linux,ubuntu,html,js,jquery,go,redis,googlecloud)
