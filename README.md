@@ -13,6 +13,7 @@
 ## ルール
 - 以下でゲームがプレイできる(昔のSZPPerが作成したもの).
 - [潜水艦撃沈ゲーム Visualizer](https://github.com/szpp-dev-team/submarine-war-visualizer)
+- 一応のサンプルが`feat/codex`にあるけどあまり参考にしないで.
 
 ### ゲーム空間
 
