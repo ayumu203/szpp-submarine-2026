@@ -1,0 +1,261 @@
+classDiagram
+direction LR
+
+namespace presentation {
+  class GameHandler {
+    +handleInitialize(req)
+    +handleAction(req)
+    +handleState(gameId, viewerPlayerId)
+  }
+}
+
+namespace application {
+  class GameService {
+    +initializeGame(playerAId, playerBId) Game
+    +executeTurn(gameId, command) TurnResult
+    +executeCpuTurn(gameId, playerId) TurnResult
+    +getGameState(gameId, viewerPlayerId) GameState
+  }
+
+  class CpuDecisionService {
+    +decideAction(game, playerId) ActionCommand
+  }
+
+  class CpuAnalysisService {
+    +recordTurn(gameId, turnLog)
+    +updatePrediction(gameId, playerId) PredictionBoard
+    +getPrediction(gameId, playerId) PredictionBoard
+  }
+
+  class GameState {
+    +gameId string
+    +turn int
+    +status GameStatus
+    +currentPlayerId string
+    +opponentId string
+    +board Board
+    +predictionBoard PredictionBoard
+    +logs TurnLog[]
+  }
+}
+
+namespace domain {
+  class Game {
+    +id string
+    +status GameStatus
+    +turn int
+    +playerAId string
+    +playerBId string
+    +currentPlayerId string
+    +winnerId string
+    +createdAt string
+    +updatedAt string
+    +start()
+    +apply(command) TurnResult
+    +isFinished() bool
+  }
+
+  class Board {
+    +positionIndex map~Position,string~
+    +submarines map~string,Submarine~
+    +placeSubmarine(playerId, position) bool
+    +moveSubmarine(playerId, submarineId, direction, distance) bool
+    +findTargets(attackerId, center) Submarine[]
+    +isOccupied(position) bool
+    +getSubmarineAt(position) Submarine
+  }
+
+  class Player {
+    +id string
+    +name string
+    +remainingHp() int
+  }
+
+  class Submarine {
+    +id string
+    +ownerId string
+    +position Position
+    +hp int
+    +isSunk() bool
+    +takeDamage(amount)
+    +moveTo(position)
+  }
+
+  class Position {
+    +x int
+    +y int
+    +withinBoard() bool
+    +neighbors8() Position[]
+  }
+
+  class ActionCommand {
+    +playerId string
+    +type ActionType
+    +target Position
+    +direction Direction
+    +distance int
+  }
+
+  class TurnResult {
+    +attackReport ReportType
+    +moveReport MoveReportType
+    +errorCode ErrorCode
+    +hitCount int
+    +sunkCount int
+    +nextPlayerId string
+  }
+
+  class TurnLog {
+    +gameId string
+    +turn int
+    +playerId string
+    +actionType ActionType
+    +target Position
+    +direction Direction
+    +distance int
+    +attackReport ReportType
+    +moveReport MoveReportType
+    +errorCode ErrorCode
+    +createdAt string
+  }
+
+  class PredictionBoard {
+    +scoreGrid int[5][5]
+    +possibleEnemyCount int[5][5]
+    +updatedAt string
+    +markHit(position)
+    +markMiss(position)
+    +increaseLikelihood(position, weight)
+    +bestAttackCell() Position
+  }
+
+  class GameRepository {
+    <<interface>>
+    +save(game) error
+    +findById(gameId) Game
+  }
+
+  class TurnLogRepository {
+    <<interface>>
+    +append(log) error
+    +findByGameId(gameId) TurnLog[]
+  }
+
+  class PredictionRepository {
+    <<interface>>
+    +save(gameId, playerId, board) error
+    +find(gameId, playerId) PredictionBoard
+  }
+
+  class PlayerGamesIndexRepository {
+    <<interface>>
+    +addGame(playerId, gameId) error
+    +removeGame(playerId, gameId) error
+    +listGames(playerId) string[]
+  }
+
+  class CpuPlayer {
+    <<interface>>
+    +decide(game) ActionCommand
+  }
+
+  class GameStatus {
+    <<enumeration>>
+    waiting
+    inProgress
+    finished
+  }
+
+  class ActionType {
+    <<enumeration>>
+    attack
+    move
+  }
+
+  class Direction {
+    <<enumeration>>
+    north
+    south
+    east
+    west
+  }
+
+  class ReportType {
+    <<enumeration>>
+    miss
+    hit
+    hitAndSunk
+    waveHigh
+  }
+
+  class MoveReportType {
+    <<enumeration>>
+    moveSuccess
+    moveBlocked
+  }
+
+  class ErrorCode {
+    <<enumeration>>
+    invalidTurn
+    invalidAction
+    invalidTarget
+    invalidMoveDistance
+    outOfBoard
+  }
+}
+
+namespace infrastructure {
+  class UpstashGameRepository {
+    +save(game) error
+    +findById(gameId) Game
+  }
+
+  class RandomCpuPlayer {
+    +decide(game) ActionCommand
+  }
+
+  class UpstashTurnLogRepository {
+    +append(log) error
+    +findByGameId(gameId) TurnLog[]
+  }
+
+  class UpstashPredictionRepository {
+    +save(gameId, playerId, board) error
+    +find(gameId, playerId) PredictionBoard
+  }
+
+  class UpstashPlayerGamesIndexRepository {
+    +addGame(playerId, gameId) error
+    +removeGame(playerId, gameId) error
+    +listGames(playerId) string[]
+  }
+}
+
+GameHandler --> GameService : uses
+GameService --> GameRepository : depends on
+GameService --> PlayerGamesIndexRepository : depends on
+GameService --> CpuDecisionService : uses
+GameService --> CpuAnalysisService : uses
+GameService --> TurnLogRepository : depends on
+GameService --> PredictionRepository : depends on
+CpuDecisionService --> CpuPlayer : depends on
+CpuDecisionService --> CpuAnalysisService : uses
+CpuAnalysisService --> TurnLogRepository : depends on
+CpuAnalysisService --> PredictionRepository : depends on
+CpuAnalysisService --> PredictionBoard : builds/updates
+
+Game --> Board : has
+Game --> Player : has 2
+Player --> Submarine : owns 0..4
+Submarine --> Position : has
+Game --> ActionCommand : applies
+Game --> TurnResult : returns
+Game --> TurnLog : emits
+GameService --> GameState : returns
+
+GameRepository <|.. UpstashGameRepository : implements
+CpuPlayer <|.. RandomCpuPlayer : implements
+TurnLogRepository <|.. UpstashTurnLogRepository : implements
+PredictionRepository <|.. UpstashPredictionRepository : implements
+PlayerGamesIndexRepository <|.. UpstashPlayerGamesIndexRepository : implements
+PredictionRepository --> PredictionBoard : stores/loads
