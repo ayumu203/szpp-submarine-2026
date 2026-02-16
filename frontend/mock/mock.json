@@ -24,7 +24,7 @@
         },
         "ExecuteActionResponse": {
             "gameId": "hogemarine2026",
-            "turn": 3777,
+            "turn": 3776,
             "attackReport": "waveHigh",
             "nextPlayerId": "gehogeho2",
             "status": "inProgress"
@@ -37,9 +37,9 @@
         },
         "GetGameStateResponse": {
             "gameId": "hogemarine2026",
-            "turn": 3777,
+            "turn": 3776,
             "status": "inProgress",
-            "currentPlayerId": "gehogeho2",
+            "currentPlayerId": "hogehoge1",
             "opponentId": "gehogeho2",
             "allyBoard": {
                 "cells": [
@@ -257,17 +257,6 @@
                 "updatedAt": "20260216"
             },
             "logs": [
-                {
-                    "turn": 3776,
-                    "playerId": "hogehoge1",
-                    "actionType": "attack",
-                    "target": {
-                        "x": 1,
-                        "y": 4
-                    },
-                    "attackReport": "waveHigh",
-                    "createdAt": "20260216"
-                },
                 {
                     "turn": 3775,
                     "playerId": "gehogeho2",
