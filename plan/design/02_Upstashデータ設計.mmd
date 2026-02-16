@@ -19,14 +19,14 @@ erDiagram
 
     BOARD_STATE {
         string game_id PK
-        string cells_json "5x5 occupancy"
+        string cells_json "5x5x2 occupancy"
         string submarines_json "id->ownerId,x,y,hp,sunk"
         string redis_key "game:{gameId}:board (String JSON)"
     }
 
     TURN_LOG {
         string game_id FK
-        int turn
+        int turn PK
         string player_id
         string action_type
         string target_json
@@ -43,7 +43,7 @@ erDiagram
         string game_id FK
         string player_id
         string score_grid_json "int[5][5]"
-        string possible_enemy_count_json "int[5][5]"
+        string enemy_possibility_json "float32[5][5]"
         string updated_at
         string redis_key "game:{gameId}:prediction:{playerId} (String JSON)"
     }
