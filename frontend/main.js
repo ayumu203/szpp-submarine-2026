@@ -46,17 +46,21 @@ function clearSubmarines() {
  * @description 潜水艦の位置を●で表示する
 */
 async function renderSubmarines() {
-      if (!fieldTable) {
-            throw new Error("潜水艦を表示するテーブルが存在しません");
+      try {
+            if (!fieldTable) {
+                  throw new Error("潜水艦を表示するテーブルが存在しません");
+            }
+      
+            const positions = await getSubmarinePositions();
+            clearSubmarines();
+      
+            positions.forEach(({ x, y }) => {
+                  if (x < 1 || x > BOARD_SIZE || y < 1 || y > BOARD_SIZE) return;
+                  fieldTable.rows[y].cells[x].textContent = "●";
+            });
+      } catch (e) {
+            throw new Error("潜水艦表示に失敗しました: ", e);
       }
-
-      const positions = await getSubmarinePositions();
-      clearSubmarines();
-
-      positions.forEach(({ x, y }) => {
-            if (x < 1 || x > BOARD_SIZE || y < 1 || y > BOARD_SIZE) return;
-            fieldTable.rows[y].cells[x].textContent = "●";
-      });
 }
 
 document.addEventListener("DOMContentLoaded", renderSubmarines);
