@@ -3,6 +3,6 @@ package shared
 type MoveReportType int
 
 const (
-	moveSuccess = iota
-	moveBlocked
+	MoveSuccess = iota
+	MoveBlocked
 )
