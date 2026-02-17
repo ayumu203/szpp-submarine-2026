@@ -114,7 +114,7 @@ func TestNewActionCommandFail(t *testing.T) {
 			target, _ := NewPosition(tl.targetX, tl.targetY)
 
 			_, err := NewActionCommand(tl.playerId, tl.actionType, target, tl.direction, tl.distance)
-			assert.ErrorIs(t, tl.expectedError, err)
+			assert.ErrorIs(t, err, tl.expectedError)
 		})
 	}
 }
