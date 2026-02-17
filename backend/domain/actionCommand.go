@@ -33,6 +33,8 @@ func NewActionCommand(
 		if target != nil || direction == shared.DirectionUnknown {
 			return nil, shared.ErrActionCommandInvalidParamCombination
 		}
+	default:
+		return nil, shared.ErrInvalidActionType
 	}
 	return &actionCommand, nil
 }

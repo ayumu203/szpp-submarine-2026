@@ -111,9 +111,9 @@ func TestNewActionCommandfail(t *testing.T) {
 
 	for _, tl := range testList {
 		t.Run(tl.name, func(t *testing.T) {
-			target, err := NewPosition(tl.targetX, tl.targetY)
+			target, _ := NewPosition(tl.targetX, tl.targetY)
 
-			_, err = NewActionCommand(tl.playerId, tl.actionType, target, tl.direction, tl.distance)
+			_, err := NewActionCommand(tl.playerId, tl.actionType, target, tl.direction, tl.distance)
 			assert.ErrorIs(t, tl.expectedError, err)
 		})
 	}
