@@ -23,7 +23,7 @@ func (position *Position) withinBoard() bool {
 }
 
 func (position *Position) Neighbors8() []*Position {
-	positions := []*Position{}
+	positions := make([]*Position, 0, 8)
 	delta := []int{-1, 0, 1}
 	x, y := position.GetPosition()
 	for _, dx := range delta {

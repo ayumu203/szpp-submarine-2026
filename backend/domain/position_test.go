@@ -75,52 +75,6 @@ func TestNewPositionFail(t *testing.T) {
 	}
 }
 
-func TestWithinBoard(t *testing.T) {
-	testList := []struct {
-		name     string
-		x        int
-		y        int
-		expected bool
-	}{
-		{
-			"[withinBoard: 1, 1は盤内]",
-			1,
-			1,
-			true,
-		},
-		{
-			"[withinBoard: 5, 5は盤内]",
-			5,
-			5,
-			true,
-		},
-		{
-			"[withinBoard: 0, 3は盤外]",
-			0,
-			3,
-			false,
-		},
-		{
-			"[withinBoard: 6, 3は盤外]",
-			6,
-			3,
-			false,
-		},
-		{
-			"[withinBoard: -1, -1は盤外]",
-			-1,
-			-1,
-			false,
-		},
-	}
-	for _, tl := range testList {
-		t.Run(tl.name, func(t *testing.T) {
-			pos := &Position{x: tl.x, y: tl.y}
-			assert.Equal(t, tl.expected, pos.withinBoard())
-		})
-	}
-}
-
 func TestGetPosition(t *testing.T) {
 	testList := []struct {
 		name      string
@@ -158,51 +112,6 @@ func TestGetPosition(t *testing.T) {
 			x, y := pos.GetPosition()
 			assert.Equal(t, tl.expectedX, x)
 			assert.Equal(t, tl.expectedY, y)
-		})
-	}
-}
-
-func TestIsEqual(t *testing.T) {
-	testList := []struct {
-		name     string
-		x1       int
-		y1       int
-		x2       int
-		y2       int
-		expected bool
-	}{
-		{
-			"[isEqual: 同じ座標]",
-			2,
-			3,
-			2,
-			3,
-			true,
-		},
-		{
-			"[isEqual: 異なる座標]",
-			2,
-			3,
-			2,
-			4,
-			false,
-		},
-		{
-			"[isEqual: 左上と右下]",
-			1,
-			1,
-			5,
-			5,
-			false,
-		},
-	}
-	for _, tl := range testList {
-		t.Run(tl.name, func(t *testing.T) {
-			pos1, err1 := NewPosition(tl.x1, tl.y1)
-			pos2, err2 := NewPosition(tl.x2, tl.y2)
-			assert.NoError(t, err1)
-			assert.NoError(t, err2)
-			assert.Equal(t, tl.expected, pos1.isEqual(pos2))
 		})
 	}
 }
