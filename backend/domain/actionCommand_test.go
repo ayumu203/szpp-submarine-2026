@@ -56,7 +56,7 @@ func TestNewActionCommandSuccess(t *testing.T) {
 		})
 	}
 }
-func TestNewActionCommandfail(t *testing.T) {
+func TestNewActionCommandFail(t *testing.T) {
 	testList := []struct {
 		name          string
 		playerId      string
