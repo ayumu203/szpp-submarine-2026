@@ -4,9 +4,9 @@ package shared
 type ActionType int
 
 const (
-	ActionUnknown = iota
-	Attack
+	Attack = iota
 	Move
+	ActionUnknown
 )
 
 func (a ActionType) String() string {

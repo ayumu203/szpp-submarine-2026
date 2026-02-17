@@ -4,11 +4,11 @@ package shared
 type Direction int
 
 const (
-	DirectionUnknown = iota
-	North
+	North = iota
 	East
 	South
 	West
+	DirectionUnknown
 )
 
 func (d Direction) String() string {
