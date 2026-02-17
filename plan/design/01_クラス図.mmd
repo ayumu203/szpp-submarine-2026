@@ -86,9 +86,10 @@ namespace domain {
   class Position {
     -x int
     -y int
-    +WithinBoard() bool
     +Neighbors8() Position[]
-    +GetPosition() Position
+    +GetPosition() int, int
+    -withinBoard() bool
+    -isEqual() bool
   }
 
   class ActionCommand {
