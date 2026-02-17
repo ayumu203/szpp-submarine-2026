@@ -4,7 +4,8 @@ package shared
 type ActionType int
 
 const (
-	Attack = iota
+	ActionUnknown = iota
+	Attack
 	Move
 )
 

@@ -4,7 +4,8 @@ package shared
 type Direction int
 
 const (
-	North = iota
+	DirectionUnknown = iota
+	North
 	East
 	South
 	West
