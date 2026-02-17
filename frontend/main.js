@@ -1,4 +1,4 @@
-const table = document.querySelector("table#field");
+const fieldTable = document.querySelector("table#field");
 
 /**
  * @description jsonファイルからモックデータを取得する
@@ -12,12 +12,43 @@ async function getMock() {
       return data;
 }
 
+
+/**
+ * @description 潜水艦のx座標を取得する
+ * @returns {number[]} 各潜水艦のx座標のリスト
+*/
+async function getPosX() {
+      const data = await getMock();
+      const submarines = Object.values(data.State.GetGameStateResponse.allyBoard.submarines);
+      const xPos = [];
+      
+      submarines.forEach(submarine => {
+            xPos.push(submarine.x);
+      });
+      return xPos;
+}
+
+/**
+ * @description 潜水艦のy座標を取得する
+ * @returns {number[]} 各潜水艦のy座標のリスト
+*/
+async function getPosY() {
+      const data = await getMock();
+      const submarines = Object.values(data.State.GetGameStateResponse.allyBoard.submarines);
+      const yPos = [];
+      
+      submarines.forEach(submarine => {
+            yPos.push(submarine.y);
+      });
+      return yPos;
+}
+
 /** @description 表の内容をすべて空にする */
 function clearSubmarines() {
       for (let row = 1; row <= 5; row++) {
             for (let col = 1; col <= 5; col++) {
-                  if (table) {
-                        table.rows[row].cells[col].textContent = "";
+                  if (fieldTable) {
+                        fieldTable.rows[row].cells[col].textContent = "";
                   }
             }
       }
@@ -25,35 +56,19 @@ function clearSubmarines() {
 
 /**
  * @description 潜水艦の位置を●で表示する
- * @param {number[]} xPos x座標のリスト
- * @param {number[]} yPos y座標のリスト
 */
-function renderSubmarines(xPos, yPos) {
+async function renderSubmarines() {
+      const xPos = await getPosX();
+      const yPos = await getPosY();
+
+      clearSubmarines();
+
       for (let i = 0; i < xPos.length; i++) {
             const x = xPos[i];
             const y = yPos[i];
             if (x < 1 || x > 5 || y < 1 || y > 5) continue;
-            table.rows[y].cells[x].textContent = "●";
+            fieldTable.rows[y].cells[x].textContent = "●";
       }
 }
 
-/**
- * @description 潜水艦の位置を取得、表示する
-*/
-async function getPos() {
-      const data = await getMock();
-      const submarines = Object.values(data.State.GetGameStateResponse.allyBoard.submarines);
-      const xPos = [];
-      const yPos = [];
-
-      submarines.forEach(submarine => {
-            xPos.push(submarine.x);
-            yPos.push(submarine.y);
-      });
-
-      clearSubmarines();
-      renderSubmarines(xPos, yPos);
-}
-
-
-document.addEventListener("DOMContentLoaded", getPos);
+document.addEventListener("DOMContentLoaded", renderSubmarines);
