@@ -8,6 +8,7 @@ async function getMock() {
       return data;
 }
 
+// 潜水艦の位置を取得、表示する
 async function getPos() {
       const data = await getMock();
       const submarines = Object.values(data.State.GetGameStateResponse.allyBoard.submarines);
@@ -23,6 +24,7 @@ async function getPos() {
       renderSubmarines(xPos, yPos);
 }
 
+// 表の内容をすべて空にする
 function clearSubmarines() {
       for (let row = 1; row <= 5; row++) {
             for (let col = 1; col <= 5; col++) {
@@ -31,6 +33,7 @@ function clearSubmarines() {
       }
 }
 
+// 潜水艦の位置を●で表示する
 function renderSubmarines(xPos, yPos) {
       for (let i = 0; i < 4; i++) {
             x = xPos[i];
