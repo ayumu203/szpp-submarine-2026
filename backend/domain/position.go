@@ -19,7 +19,7 @@ func NewPosition(x int, y int) (*Position, error) {
 }
 
 func (position *Position) withinBoard() bool {
-	return position.x >= 1 && position.x <= 5 && position.y >= 1 && position.y <= 5
+	return position.x >= share.MinPosition && position.x <= share.MaxPosition && position.y >= share.MinPosition && position.y <= share.MaxPosition
 }
 
 func (position *Position) Neighbors8() []*Position {
