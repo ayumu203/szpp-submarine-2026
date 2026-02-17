@@ -1,9 +1,9 @@
 package shared
 
-type gameStatus int
+type GameStatus int
 
 const (
-	waiting = iota
-	inProgress
-	finished
+	Waiting = iota
+	InProgress
+	Finished
 )

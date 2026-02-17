@@ -1,8 +1,8 @@
 package shared
 
-type actionType int
+type ActionType int
 
 const (
-	attack = iota
-	move
+	Attack = iota
+	Move
 )

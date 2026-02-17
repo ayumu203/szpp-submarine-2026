@@ -1,10 +1,10 @@
 package shared
 
-type direction int
+type Direction int
 
 const (
-	north = iota
-	east
-	south
-	west
+	North = iota
+	East
+	South
+	West
 )
