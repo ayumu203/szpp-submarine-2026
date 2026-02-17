@@ -1,6 +1,9 @@
 package domain
 
-import share "backend/domain/shared"
+import (
+	share "backend/domain/shared"
+	"errors"
+)
 
 type Position struct {
 	x int
@@ -12,35 +15,64 @@ func NewPosition(x int, y int) (*Position, error) {
 		x: x,
 		y: y,
 	}
-	if !position.withinBoard() {
+	withinResult, err := position.withinBoard()
+	if err != nil {
+		return nil, err
+	}
+	if !withinResult {
 		return nil, share.ErrOutOfBoard
 	}
 	return &position, nil
 }
 
-func (position *Position) withinBoard() bool {
-	return position.x >= share.MinPosition && position.x <= share.MaxPosition && position.y >= share.MinPosition && position.y <= share.MaxPosition
+func (position *Position) withinBoard() (bool, error) {
+	if position == nil {
+		return false, share.ErrPositionIsNil
+	}
+	return position.x >= share.MinPosition && position.x <= share.MaxPosition && position.y >= share.MinPosition && position.y <= share.MaxPosition, nil
 }
 
-func (position *Position) Neighbors8() []*Position {
+func (position *Position) Neighbors8() ([]*Position, error) {
+	if position == nil {
+		return nil, share.ErrPositionIsNil
+	}
 	positions := make([]*Position, 0, 8)
 	delta := []int{-1, 0, 1}
-	x, y := position.GetPosition()
+	x, y, err := position.GetPosition()
+	if err != nil {
+		return nil, err
+	}
 	for _, dx := range delta {
 		for _, dy := range delta {
-			positionNeighbor, _ := NewPosition(x+dx, y+dy)
-			if positionNeighbor != nil && !positionNeighbor.isEqual(position) {
-				positions = append(positions, positionNeighbor)
+			positionNeighbor, err := NewPosition(x+dx, y+dy)
+			if errors.Is(err, share.ErrOutOfBoard) {
+				continue
+			} else if err != nil {
+				return nil, err
+			} else {
+				isEqual, err := positionNeighbor.isEqual(position)
+				if err != nil {
+					return nil, err
+				}
+				if !isEqual {
+					positions = append(positions, positionNeighbor)
+				}
 			}
 		}
 	}
-	return positions
+	return positions, nil
 }
 
-func (position *Position) GetPosition() (int, int) {
-	return position.x, position.y
+func (position *Position) GetPosition() (int, int, error) {
+	if position == nil {
+		return 0, 0, share.ErrPositionIsNil
+	}
+	return position.x, position.y, nil
 }
 
-func (position *Position) isEqual(positionExt *Position) bool {
-	return position.x == positionExt.x && position.y == positionExt.y
+func (position *Position) isEqual(positionExt *Position) (bool, error) {
+	if position == nil {
+		return false, share.ErrPositionIsNil
+	}
+	return position.x == positionExt.x && position.y == positionExt.y, nil
 }

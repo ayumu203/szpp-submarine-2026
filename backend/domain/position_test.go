@@ -75,7 +75,7 @@ func TestNewPositionFail(t *testing.T) {
 	}
 }
 
-func TestGetPosition(t *testing.T) {
+func TestGetPositionSuccess(t *testing.T) {
 	testList := []struct {
 		name      string
 		x         int
@@ -109,14 +109,23 @@ func TestGetPosition(t *testing.T) {
 		t.Run(tl.name, func(t *testing.T) {
 			pos, err := NewPosition(tl.x, tl.y)
 			assert.NoError(t, err)
-			x, y := pos.GetPosition()
+			x, y, err := pos.GetPosition()
+			assert.NoError(t, err)
 			assert.Equal(t, tl.expectedX, x)
 			assert.Equal(t, tl.expectedY, y)
 		})
 	}
 }
 
-func TestNeighbors8(t *testing.T) {
+func TestGetPositionFail(t *testing.T) {
+	t.Run("[GetPosition: nil]", func(t *testing.T) {
+		position, _ := NewPosition(0, 0)
+		_, _, err := position.GetPosition()
+		assert.ErrorIs(t, err, share.ErrPositionIsNil)
+	})
+}
+
+func TestNeighbors8Success(t *testing.T) {
 	newPos := func(x int, y int) *Position {
 		pos, err := NewPosition(x, y)
 		assert.NoError(t, err)
@@ -175,8 +184,18 @@ func TestNeighbors8(t *testing.T) {
 	}
 	for _, tl := range testList {
 		t.Run(tl.name, func(t *testing.T) {
-			neighbors := tl.position.Neighbors8()
+			neighbors, err := tl.position.Neighbors8()
+			assert.NoError(t, err)
 			assert.ElementsMatch(t, neighbors, tl.expectedNeighbors)
 		})
 	}
+}
+
+func TestNeighbors8Fail(t *testing.T) {
+	t.Run("[Neighbors8: nil]", func(t *testing.T) {
+		position, _ := NewPosition(0, 0)
+		neighbors, err := position.Neighbors8()
+		assert.Nil(t, neighbors)
+		assert.ErrorIs(t, err, share.ErrPositionIsNil)
+	})
 }

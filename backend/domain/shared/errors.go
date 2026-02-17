@@ -5,5 +5,6 @@ import (
 )
 
 var (
-	ErrOutOfBoard = errors.New("Error[Position.go]: 場所がボードの外です．")
+	ErrOutOfBoard    = errors.New("Error[Position.go]: 場所がボードの外です．")
+	ErrPositionIsNil = errors.New("Error[Position.go]: Positionがnilです．")
 )
