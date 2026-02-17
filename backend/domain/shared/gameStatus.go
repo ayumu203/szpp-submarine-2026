@@ -9,4 +9,5 @@ const (
 	// inProgress indicates the game is currently in progress.
 	inProgress
 	// finished indicates the game has been finished.
+	finished
 )
