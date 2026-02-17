@@ -71,7 +71,7 @@ func (position *Position) GetPosition() (int, int, error) {
 }
 
 func (position *Position) isEqual(positionExt *Position) (bool, error) {
-	if position == nil {
+	if position == nil || positionExt == nil {
 		return false, share.ErrPositionIsNil
 	}
 	return position.x == positionExt.x && position.y == positionExt.y, nil
