@@ -72,3 +72,8 @@ footer {
 .move-source { background-color: #ffd166 !important; }
 .move-candidate { background-color: #c7f9cc !important; }
 .move-destination { background-color: #80ed99 !important; }
+
+.prediction-cell {
+  font-size: 12px;
+  color: #0a3d62;
+}
