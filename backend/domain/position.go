@@ -24,11 +24,11 @@ func (position *Position) withinBoard() bool {
 
 func (position *Position) Neighbors8() []*Position {
 	positions := []*Position{}
-	d := []int{-1, 0, 1}
+	delta := []int{-1, 0, 1}
 	x, y := position.GetPosition()
-	for _, i := range d {
-		for _, j := range d {
-			positionNeighbor, _ := NewPosition(x+i, y+j)
+	for _, dx := range delta {
+		for _, dy := range delta {
+			positionNeighbor, _ := NewPosition(x+dx, y+dy)
 			if positionNeighbor != nil && !positionNeighbor.isEqual(position) {
 				positions = append(positions, positionNeighbor)
 			}
