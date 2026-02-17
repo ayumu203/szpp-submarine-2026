@@ -38,8 +38,8 @@ func TestNewPositionSuccess(t *testing.T) {
 		t.Run(tl.name, func(t *testing.T) {
 			point, err := NewPosition(tl.x, tl.y)
 			assert.NoError(t, err)
-			assert.Equal(t, point.x, tl.expectedX)
-			assert.Equal(t, point.y, tl.expectedY)
+			assert.Equal(t, tl.expectedX, point.x)
+			assert.Equal(t, tl.expectedY, point.y)
 		})
 	}
 }
@@ -126,67 +126,114 @@ func TestGetPositionFail(t *testing.T) {
 }
 
 func TestNeighbors8Success(t *testing.T) {
-	newPos := func(x int, y int) *Position {
-		pos, err := NewPosition(x, y)
-		assert.NoError(t, err)
-		return pos
-	}
 	testList := []struct {
 		name              string
-		position          *Position
-		expectedNeighbors []*Position
+		x                 int
+		y                 int
+		expectedNeighbors []struct {
+			x int
+			y int
+		}
 	}{
 		{
 			"[Neighbors8: 2, 3の周辺]",
-			newPos(2, 3),
-			[]*Position{newPos(1, 2), newPos(1, 3), newPos(1, 4), newPos(2, 2), newPos(2, 4), newPos(3, 2), newPos(3, 3), newPos(3, 4)},
+			2,
+			3,
+			[]struct {
+				x int
+				y int
+			}{{1, 2}, {1, 3}, {1, 4}, {2, 2}, {2, 4}, {3, 2}, {3, 3}, {3, 4}},
 		},
 		{
 			"[Neighbors8: 1, 1の左上コーナー]",
-			newPos(1, 1),
-			[]*Position{newPos(1, 2), newPos(2, 1), newPos(2, 2)},
+			1,
+			1,
+			[]struct {
+				x int
+				y int
+			}{{1, 2}, {2, 1}, {2, 2}},
 		},
 		{
 			"[Neighbors8: 5, 5の右下コーナー]",
-			newPos(5, 5),
-			[]*Position{newPos(4, 4), newPos(4, 5), newPos(5, 4)},
+			5,
+			5,
+			[]struct {
+				x int
+				y int
+			}{{4, 4}, {4, 5}, {5, 4}},
 		},
 		{
 			"[Neighbors8: 1, 5の左下コーナー]",
-			newPos(1, 5),
-			[]*Position{newPos(1, 4), newPos(2, 4), newPos(2, 5)},
+			1,
+			5,
+			[]struct {
+				x int
+				y int
+			}{{1, 4}, {2, 4}, {2, 5}},
 		},
 		{
 			"[Neighbors8: 5, 1の右上コーナー]",
-			newPos(5, 1),
-			[]*Position{newPos(4, 1), newPos(4, 2), newPos(5, 2)},
+			5,
+			1,
+			[]struct {
+				x int
+				y int
+			}{{4, 1}, {4, 2}, {5, 2}},
 		},
 		{
 			"[Neighbors8: 1, 3の左エッジ]",
-			newPos(1, 3),
-			[]*Position{newPos(1, 2), newPos(1, 4), newPos(2, 2), newPos(2, 3), newPos(2, 4)},
+			1,
+			3,
+			[]struct {
+				x int
+				y int
+			}{{1, 2}, {1, 4}, {2, 2}, {2, 3}, {2, 4}},
 		},
 		{
 			"[Neighbors8: 5, 3の右エッジ]",
-			newPos(5, 3),
-			[]*Position{newPos(4, 2), newPos(4, 3), newPos(4, 4), newPos(5, 2), newPos(5, 4)},
+			5,
+			3,
+			[]struct {
+				x int
+				y int
+			}{{4, 2}, {4, 3}, {4, 4}, {5, 2}, {5, 4}},
 		},
 		{
 			"[Neighbors8: 3, 1の上エッジ]",
-			newPos(3, 1),
-			[]*Position{newPos(2, 1), newPos(2, 2), newPos(3, 2), newPos(4, 1), newPos(4, 2)},
+			3,
+			1,
+			[]struct {
+				x int
+				y int
+			}{{2, 1}, {2, 2}, {3, 2}, {4, 1}, {4, 2}},
 		},
 		{
 			"[Neighbors8: 3, 5の下エッジ]",
-			newPos(3, 5),
-			[]*Position{newPos(2, 4), newPos(2, 5), newPos(3, 4), newPos(4, 4), newPos(4, 5)},
+			3,
+			5,
+			[]struct {
+				x int
+				y int
+			}{{2, 4}, {2, 5}, {3, 4}, {4, 4}, {4, 5}},
 		},
 	}
 	for _, tl := range testList {
 		t.Run(tl.name, func(t *testing.T) {
-			neighbors, err := tl.position.Neighbors8()
+			position, err := NewPosition(tl.x, tl.y)
 			assert.NoError(t, err)
-			assert.ElementsMatch(t, neighbors, tl.expectedNeighbors)
+
+			neighbors, err := position.Neighbors8()
+			assert.NoError(t, err)
+
+			// 期待される座標のPositionリストを作成
+			expectedPositions := make([]*Position, 0, len(tl.expectedNeighbors))
+			for _, expected := range tl.expectedNeighbors {
+				pos, err := NewPosition(expected.x, expected.y)
+				assert.NoError(t, err)
+				expectedPositions = append(expectedPositions, pos)
+			}
+
+			assert.ElementsMatch(t, expectedPositions, neighbors)
 		})
 	}
 }
