@@ -3,7 +3,7 @@ package domain
 import (
 	"testing"
 
-	share "backend/domain/shared"
+	shared "backend/domain/shared"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -54,17 +54,17 @@ func TestNewPositionFail(t *testing.T) {
 		"[NewPosition: 0, 0で初期化]",
 		0,
 		0,
-		share.ErrOutOfBoard,
+		shared.ErrOutOfBoard,
 	}, {
 		"[NewPosition: 6, 6で初期化]",
 		6,
 		6,
-		share.ErrOutOfBoard,
+		shared.ErrOutOfBoard,
 	}, {
 		"[NewPosition: -1, 3で初期化]",
 		-1,
 		3,
-		share.ErrOutOfBoard,
+		shared.ErrOutOfBoard,
 	}}
 	for _, tl := range testList {
 		t.Run(tl.name, func(t *testing.T) {
@@ -121,7 +121,7 @@ func TestGetPositionFail(t *testing.T) {
 	t.Run("[GetPosition: nil]", func(t *testing.T) {
 		position, _ := NewPosition(0, 0)
 		_, _, err := position.GetPosition()
-		assert.ErrorIs(t, err, share.ErrPositionIsNil)
+		assert.ErrorIs(t, err, shared.ErrPositionIsNil)
 	})
 }
 
@@ -243,6 +243,6 @@ func TestNeighbors8Fail(t *testing.T) {
 		position, _ := NewPosition(0, 0)
 		neighbors, err := position.Neighbors8()
 		assert.Nil(t, neighbors)
-		assert.ErrorIs(t, err, share.ErrPositionIsNil)
+		assert.ErrorIs(t, err, shared.ErrPositionIsNil)
 	})
 }

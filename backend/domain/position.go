@@ -1,7 +1,7 @@
 package domain
 
 import (
-	share "backend/domain/shared"
+	shared "backend/domain/shared"
 	"errors"
 )
 
@@ -20,21 +20,21 @@ func NewPosition(x int, y int) (*Position, error) {
 		return nil, err
 	}
 	if !withinResult {
-		return nil, share.ErrOutOfBoard
+		return nil, shared.ErrOutOfBoard
 	}
 	return &position, nil
 }
 
 func (position *Position) withinBoard() (bool, error) {
 	if position == nil {
-		return false, share.ErrPositionIsNil
+		return false, shared.ErrPositionIsNil
 	}
-	return position.x >= share.MinPosition && position.x <= share.MaxPosition && position.y >= share.MinPosition && position.y <= share.MaxPosition, nil
+	return position.x >= shared.MinPosition && position.x <= shared.MaxPosition && position.y >= shared.MinPosition && position.y <= shared.MaxPosition, nil
 }
 
 func (position *Position) Neighbors8() ([]*Position, error) {
 	if position == nil {
-		return nil, share.ErrPositionIsNil
+		return nil, shared.ErrPositionIsNil
 	}
 	positions := make([]*Position, 0, 8)
 	delta := []int{-1, 0, 1}
@@ -45,7 +45,7 @@ func (position *Position) Neighbors8() ([]*Position, error) {
 	for _, dx := range delta {
 		for _, dy := range delta {
 			positionNeighbor, err := NewPosition(x+dx, y+dy)
-			if errors.Is(err, share.ErrOutOfBoard) {
+			if errors.Is(err, shared.ErrOutOfBoard) {
 				continue
 			}
 			if err != nil {
@@ -65,14 +65,14 @@ func (position *Position) Neighbors8() ([]*Position, error) {
 
 func (position *Position) GetPosition() (int, int, error) {
 	if position == nil {
-		return 0, 0, share.ErrPositionIsNil
+		return 0, 0, shared.ErrPositionIsNil
 	}
 	return position.x, position.y, nil
 }
 
 func (position *Position) isEqual(positionExt *Position) (bool, error) {
 	if position == nil || positionExt == nil {
-		return false, share.ErrPositionIsNil
+		return false, shared.ErrPositionIsNil
 	}
 	return position.x == positionExt.x && position.y == positionExt.y, nil
 }
