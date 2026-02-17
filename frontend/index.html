@@ -4,10 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>潜水艦撃沈ゲーム</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="main.js"></script>
+   <div>
+   
+    <canvas id="back" width="800" height="475"></canvas>
+     <table id="field" border="1" width="400" height="400">  
+        <tr>
+            <td></td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>A</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+         <tr>
+            <td>B</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr> <tr>
+            <td>C</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr> <tr>
+            <td>D</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr> <tr>
+            <td>E</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+     </table>
+   </div>
+   <div><h3>対戦履歴</h3></div>
+   <div>
+    <table id="history" border="1" width="750" height="38">
+        <tr>
+            <td>Turn</td>
+            <td>Team</td>
+            <td>Operation</td>
+            <td>Result</td>
+        </tr>
+    </table>
+
+   </div>
+
+<script src="main.js"></script>    
 </body>
 </html>
