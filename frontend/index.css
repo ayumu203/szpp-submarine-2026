@@ -1,3 +1,43 @@
+#back{
+position: relative;
+top: 45px;
+left: 240px;
+background-color: rgb(246, 173, 173);
+}
+#back{
+position: relative;
+top: 40px;
+left: 220px;
+background-color: rgb(184, 209, 247);
+}
+#feild{
+position: absolute;
+top: 80px;
+left: 380px;
+text-align: center;
+background-color: rgb(251, 230, 230);
+border-color: rgb(255, 68, 0);
+}
+#field{
+position: absolute;
+top: 80px;
+left: 380px;
+text-align: center;
+background-color: rgb(229, 241, 255);
+border-color: rgb(0, 149, 255);
+}
+#history{
+position: relative;
+top: 85px;
+left: 240px;
+text-align: center;
+background-color: rgb(216, 213, 213);
+}
+h3{
+    position: absolute;
+    left: 225px;
+    top: 515px;
+}
 /* 全体 */
 body {
     font-family: "Segoe UI", sans-serif;
@@ -45,4 +85,3 @@ footer {
     padding: 15px 0;
     color: #666;
 }
-
