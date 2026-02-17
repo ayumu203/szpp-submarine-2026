@@ -1,97 +1,103 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>潜水艦撃沈ゲーム</title>
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-   <header>
-      <h1>潜水艦撃沈ゲーム２０２６</h1>
-   </header>
-  <main>
-  <div id="button-area"></div>
-           <input class="btn" id="btn-back" type="button" value="戻る">
-           <input class="btn" id="btn-apply" type="button" value="決定">
-           <input class="btn" id="btn-display" type="button" value="予測表示切替">
-           <input class="btn" id="btn-attack" type="button" value="攻撃する">
-           <input class="btn" id="btn-move" type="button" value="移動する">
-  </div>
-  
-  <div> 
-    <canvas id="back" width="800" height="475"></canvas>
-     <table id="field" border="1" width="400" height="400">  
-        <tr>
-            <td></td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-        </tr>
-        <tr>
-            <td>A</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-         <tr>
-            <td>B</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr> <tr>
-            <td>C</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr> <tr>
-            <td>D</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr> <tr>
-            <td>E</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+    <header>
+        <h1>潜水艦撃沈ゲーム２０２６</h1>
+    </header>
+    <main>
         
-     </table>
-   </div>
-  
-   <div><h3>対戦履歴</h3></div>
-  
-   <div>
-    <table id="history" border="1" width="750" height="38">
-        <tr>
-            <td>Turn</td>
-            <td>Team</td>
-            <td>Operation</td>
-            <td>Result</td>
-        </tr>
-    </table>
-   </div>
-  
-   </main>
+        <div>
+            <canvas id="back" width="800" height="475"></canvas>
+                <table id="field" border="1" width="400" height="400">
+                    <tr>
+                        <td></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>E</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    
+                </table>
+            </div>
+            
+            <div id="button-area">
+                <input class="btn" id="btn-back" type="button" value="戻る">
+                <input class="btn" id="btn-apply" type="button" value="決定">
+                <input class="btn" id="btn-display" type="button" value="予測表示切替">
+                <input class="btn" id="btn-attack" type="button" value="攻撃する">
+                <input class="btn" id="btn-move" type="button" value="移動する">
+            </div>
+            
+            <div class="history">
+                <h3>対戦履歴</h3>
+                <table id="history" border="1" width="750" height="38">
+                    <tr>
+                        <td>Turn</td>
+                        <td>Team</td>
+                        <td>Operation</td>
+                        <td>Result</td>
+                    </tr>
+                </table>
+            </div>
 
-  <footer>
+    </main>
+
+    <footer>
         <h3>© 2026 Shizuoka-Univ-Dev.</h3>
-  </footer>
+    </footer>
 
 
-<script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
-<script src="main.js"></script>    
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+    <script src="main.js"></script>
 </body>
+
 </html>
