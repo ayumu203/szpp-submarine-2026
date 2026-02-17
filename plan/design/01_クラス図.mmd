@@ -11,20 +11,20 @@ namespace presentation {
 
 namespace application {
   class GameService {
-    +initializeGame(playerAId, playerBId) Game
+    +initializeGame(playerAId, playerBId, playerAPosition) Game
     +executeTurn(gameId, command) TurnResult
     +executeCpuTurn(gameId, playerId) TurnResult
     +getGameState(gameId, viewerPlayerId) GameState
   }
 
   class CpuDecisionService {
-    +decideAction(game, playerId) ActionCommand
+    +decideAction(game) ActionCommand
   }
 
   class CpuAnalysisService {
     +recordTurn(gameId, turnLog)
-    +updatePrediction(gameId, playerId) PredictionBoard
-    +getPrediction(gameId, playerId) PredictionBoard
+    +updatePrediction(gameId) PredictionBoard
+    +getPrediction(gameId) PredictionBoard
   }
 
   class GameState {
@@ -56,13 +56,13 @@ namespace domain {
   }
 
   class Board {
-    +positionIndex map~Position,string~
     +submarines map~string,Submarine~
-    +placeSubmarine(playerId, position) bool
+    +placeSubmarine(playerId, position) error
     +moveSubmarine(playerId, submarineId, direction, distance) bool
     +findTargets(attackerId, center) Submarine[]
     +isOccupied(position) bool
-    +getSubmarineAt(position) Submarine
+    +getAllySubmarineAt(playerId, position) Submarine
+    +getOpponentSubmarineAt(playerId,position) Submarine
   }
 
   class Player {
@@ -77,8 +77,8 @@ namespace domain {
     +position Position
     +hp int
     +isSunk() bool
-    +takeDamage(amount)
-    +moveTo(position)
+    +takeDamage(amount) error
+    +moveTo(position) error
   }
 
   class Position {
@@ -97,10 +97,9 @@ namespace domain {
   }
 
   class TurnResult {
-    +attackReport ReportType
+    +attackReport AttackReportType
     +moveReport MoveReportType
     +errorCode ErrorCode
-    +hitCount int
     +sunkCount int
     +nextPlayerId string
   }
@@ -113,7 +112,7 @@ namespace domain {
     +target Position
     +direction Direction
     +distance int
-    +attackReport ReportType
+    +attackReport AttackReportType
     +moveReport MoveReportType
     +errorCode ErrorCode
     +createdAt string
@@ -121,12 +120,14 @@ namespace domain {
 
   class PredictionBoard {
     +scoreGrid int[5][5]
-    +possibleEnemyCount int[5][5]
+    +enemyPossibility float32[5][5]
     +updatedAt string
     +markHit(position)
     +markMiss(position)
-    +increaseLikelihood(position, weight)
+    +markHighWave(position, weight)
+    +markSunk(position, weight)
     +bestAttackCell() Position
+    +bestMoveCell(submarineId: string) Position
   }
 
   class GameRepository {
@@ -137,14 +138,14 @@ namespace domain {
 
   class TurnLogRepository {
     <<interface>>
-    +append(log) error
+    +append(gameId,log) error
     +findByGameId(gameId) TurnLog[]
   }
 
   class PredictionRepository {
     <<interface>>
-    +save(gameId, playerId, board) error
-    +find(gameId, playerId) PredictionBoard
+    +save(gameId, board) error
+    +find(gameId) PredictionBoard
   }
 
   class PlayerGamesIndexRepository {
@@ -180,8 +181,9 @@ namespace domain {
     west
   }
 
-  class ReportType {
+  class AttackReportType {
     <<enumeration>>
+    invalidAttack
     miss
     hit
     hitAndSunk
@@ -215,7 +217,7 @@ namespace infrastructure {
   }
 
   class UpstashTurnLogRepository {
-    +append(log) error
+    +append(gameId, log) error
     +findByGameId(gameId) TurnLog[]
   }
 

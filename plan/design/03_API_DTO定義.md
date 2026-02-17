@@ -11,12 +11,14 @@
 ### Request: `InitializeGameRequest`
 - `playerAId: string`
 - `playerBId: string`
+- `submarinePositions: { x: number, y: number }[]`
 
 ### Response: `InitializeGameResponse`
 - `gameId: string`
 - `status: waiting | inProgress | finished`
 - `turn: number`
 - `currentPlayerId: string`
+- `error?: "invalidPosition"`
 
 
 ## Action

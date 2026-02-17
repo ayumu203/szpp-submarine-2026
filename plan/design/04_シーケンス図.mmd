@@ -14,8 +14,8 @@ sequenceDiagram
 
     rect rgb(240, 248, 255)
         Note over U,R: 1. ゲーム初期化
-        U->>H: handleInitialize(playerAId, playerBId)
-        H->>GS: initializeGame(playerAId, playerBId)
+        U->>H: handleInitialize(playerAId, playerBId, playerAPosition)
+        H->>GS: initializeGame(playerAId, playerBId, playerAPosition)
         GS->>GS: Game.start() / Board.placeSubmarine(...)
         GS->>GR: save(game)
         GR->>R: HSET game:{gameId}:meta ...
