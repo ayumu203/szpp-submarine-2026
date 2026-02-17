@@ -254,7 +254,7 @@
                         0
                     ]
                 ],
-                "updatedAt": "20260216"
+                "updatedAt": "2026-02-16T11:23:01Z"
             },
             "logs": [
                 {
@@ -266,7 +266,7 @@
                         "y": 4
                     },
                     "attackReport": "waveHigh",
-                    "createdAt": "20260216"
+                    "createdAt": "2026-02-16T11:23:00Z"
                 },
                 {
                     "turn": 3775,
@@ -275,7 +275,7 @@
                     "direction": "north",
                     "distance": 1,
                     "moveReport": "moveSuccess",
-                    "createdAt": "20260216"
+                    "createdAt": "2026-02-16T10:23:59Z"
                 }
             ]
         }
