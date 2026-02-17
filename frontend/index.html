@@ -7,9 +7,19 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    
-   <div>
-   
+   <header>
+      <h1>潜水艦撃沈ゲーム２０２６</h1>
+   </header>
+  <main>
+  <div id="button-area"></div>
+           <input class="btn" id="btn-back" type="button" value="戻る">
+           <input class="btn" id="btn-apply" type="button" value="決定">
+           <input class="btn" id="btn-display" type="button" value="予測表示切替">
+           <input class="btn" id="btn-attack" type="button" value="攻撃する">
+           <input class="btn" id="btn-move" type="button" value="移動する">
+  </div>
+  
+  <div> 
     <canvas id="back" width="800" height="475"></canvas>
      <table id="field" border="1" width="400" height="400">  
         <tr>
@@ -60,7 +70,9 @@
         
      </table>
    </div>
+  
    <div><h3>対戦履歴</h3></div>
+  
    <div>
     <table id="history" border="1" width="750" height="38">
         <tr>
@@ -70,9 +82,16 @@
             <td>Result</td>
         </tr>
     </table>
-
    </div>
+  
+   </main>
 
+  <footer>
+        <h3>© 2026 Shizuoka-Univ-Dev.</h3>
+  </footer>
+
+
+<script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
 <script src="main.js"></script>    
 </body>
 </html>
