@@ -1,0 +1,283 @@
+{
+    "Initialize": {
+        "InitializeGameRequest": {
+            "playerAId": "hogehoge1",
+            "playerBId": "gehogeho2",
+            "currentPlayerId": [{"x": 3, "y": 1}, {"x": 1, "y": 3}, {"x": 3, "y": 4}, {"x": 5, "y": 5}]
+        },
+        "InitializeGameResponse": {
+            "gameId": "hogemarine2026",
+            "status": "inProgress",
+            "turn": 1,
+            "currentPlayerId": "hogehoge1"
+        }
+    },
+    "Action": {
+        "ExecuteActionRequest": {
+            "gameId": "hogemarine2026",
+            "playerId": "hogehoge1",
+            "actionType": "attack",
+            "target": {
+                "x": 1,
+                "y": 4
+            }
+        },
+        "ExecuteActionResponse": {
+            "gameId": "hogemarine2026",
+            "turn": 3777,
+            "attackReport": "waveHigh",
+            "nextPlayerId": "gehogeho2",
+            "status": "inProgress"
+        }
+    },
+    "State": {
+        "GetGameStateRequest": {
+            "gameId": "hogemarine2026",
+            "viewerPlayerId": "hogehoge1"
+        },
+        "GetGameStateResponse": {
+            "gameId": "hogemarine2026",
+            "turn": 3777,
+            "status": "inProgress",
+            "currentPlayerId": "gehogeho2",
+            "opponentId": "gehogeho2",
+            "allyBoard": {
+                "cells": [
+                    [
+                        "",
+                        "",
+                        "s1",
+                        "",
+                        ""
+                    ],
+                    [
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""
+                    ],
+                    [
+                        "s2",
+                        "",
+                        "",
+                        "",
+                        ""
+                    ],
+                    [
+                        "",
+                        "",
+                        "s3",
+                        "",
+                        ""
+                    ],
+                    [
+                        "",
+                        "",
+                        "",
+                        "",
+                        "s4"
+                    ]
+                ],
+                "submarines": {
+                    "s1": {
+                        "ownerId": "hogehoge1",
+                        "x": 3,
+                        "y": 1,
+                        "hp": 1,
+                        "sunk": false
+                    },
+                    "s2": {
+                        "ownerId": "hogehoge1",
+                        "x": 1,
+                        "y": 3,
+                        "hp": 2,
+                        "sunk": false
+                    },
+                    "s3": {
+                        "ownerId": "hogehoge1",
+                        "x": 3,
+                        "y": 4,
+                        "hp": 3,
+                        "sunk": false
+                    },
+                    "s4": {
+                        "ownerId": "hogehoge1",
+                        "x": 5,
+                        "y": 5,
+                        "hp": 1,
+                        "sunk": false
+                    }
+                }
+            },
+            "enemyBoard": {
+                "cells": [
+                    [
+                        "",
+                        "s1",
+                        "",
+                        "",
+                        ""
+                    ],
+                    [
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""
+                    ],
+                    [
+                        "s2",
+                        "",
+                        "",
+                        "",
+                        "s3"
+                    ],
+                    [
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""
+                    ],
+                    [
+                        "s4",
+                        "",
+                        "",
+                        "",
+                        ""
+                    ]
+                ],
+                "submarines": {
+                    "s1": {
+                        "ownerId": "gehogeho2",
+                        "x": 2,
+                        "y": 1,
+                        "hp": 2,
+                        "sunk": false
+                    },
+                    "s2": {
+                        "ownerId": "gehogeho2",
+                        "x": 1,
+                        "y": 3,
+                        "hp": 3,
+                        "sunk": false
+                    },
+                    "s3": {
+                        "ownerId": "gehogeho2",
+                        "x": 5,
+                        "y": 3,
+                        "hp": 0,
+                        "sunk": true
+                    },
+                    "s4": {
+                        "ownerId": "gehogeho2",
+                        "x": 1,
+                        "y": 5,
+                        "hp": 1,
+                        "sunk": false
+                    }
+                }
+            },
+            "predictionBoard": {
+                "scoreGrid": [
+                    [
+                        1,
+                        2,
+                        3,
+                        16,
+                        17
+                    ],
+                    [
+                        4,
+                        5,
+                        6,
+                        18,
+                        19
+                    ],
+                    [
+                        7,
+                        8,
+                        9,
+                        20,
+                        21
+                    ],
+                    [
+                        10,
+                        11,
+                        12,
+                        22,
+                        23
+                    ],
+                    [
+                        13,
+                        14,
+                        15,
+                        24,
+                        25
+                    ]
+                ],
+                "possibleEnemyCount": [
+                    [
+                        0,
+                        0,
+                        0.1,
+                        0.2,
+                        0.3
+                    ],
+                    [
+                        0.32,
+                        0.33,
+                        0.34,
+                        0,
+                        0
+                    ],
+                    [
+                        0.5,
+                        0.6,
+                        0.7,
+                        0,
+                        0
+                    ],
+                    [
+                        0.77,
+                        0.78,
+                        0.79,
+                        0,
+                        0
+                    ],
+                    [
+                        0.8,
+                        0.9,
+                        1,
+                        0,
+                        0
+                    ]
+                ],
+                "updatedAt": "2026-02-16T11:23:01Z"
+            },
+            "logs": [
+                {
+                    "turn": 3776,
+                    "playerId": "hogehoge1",
+                    "actionType": "attack",
+                    "target": {
+                        "x": 1,
+                        "y": 4
+                    },
+                    "attackReport": "waveHigh",
+                    "createdAt": "2026-02-16T11:23:00Z"
+                },
+                {
+                    "turn": 3775,
+                    "playerId": "gehogeho2",
+                    "actionType": "move",
+                    "direction": "north",
+                    "distance": 1,
+                    "moveReport": "moveSuccess",
+                    "createdAt": "2026-02-16T10:23:59Z"
+                }
+            ]
+        }
+    }
+}

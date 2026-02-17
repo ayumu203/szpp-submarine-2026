@@ -51,13 +51,14 @@
 - `status: inProgress | finished`
 - `currentPlayerId: string`
 - `opponentId: string`
-- `board: BoardViewDto`
+- `allyBoard: BoardViewDto`
+- `enemyBoard: BoardViewDto`
 - `predictionBoard: PredictionBoardDto`
 - `logs: TurnLogDto[]`
 
 ## 子DTO
 ### `BoardViewDto`
-- `cells: (string | null)[][]` (5x5)
+- `cells: (string)[][]` (5x5)
 - `submarines: Record<string, { ownerId: string, x: number, y: number, hp: number, sunk: boolean }>`
 
 ### `PredictionBoardDto`
