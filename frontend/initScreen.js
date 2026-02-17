@@ -1,7 +1,4 @@
 // ゲーム開始時に、画面の初期化を行う処理を記述する
-
-const { makeStrictEnum } = require("@prisma/client/runtime/library");
-
 const uiState = {
     mode: "idle",  // idle | attack | moveの3種類
     displayMode: "ally", // ally | enemy | prediction
@@ -69,7 +66,7 @@ async function initializeScreen() {
     // uiStateを変更する関数を呼び出す
 
     // main.jsの関数を使って、潜水艦を表示する
-    
+
 }
 
 $(initializeScreen)
