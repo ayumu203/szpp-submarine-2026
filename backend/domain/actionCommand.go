@@ -1,6 +1,6 @@
 package domain
 
-import shared "backend/domain/shared"
+import "backend/domain/shared"
 
 type ActionCommand struct {
 	playerId   string

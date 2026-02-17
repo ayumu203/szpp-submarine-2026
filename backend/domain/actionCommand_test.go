@@ -3,7 +3,7 @@ package domain
 import (
 	"testing"
 
-	shared "backend/domain/shared"
+	"backend/domain/shared"
 
 	"github.com/stretchr/testify/assert"
 )
