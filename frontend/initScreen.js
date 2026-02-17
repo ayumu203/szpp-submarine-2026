@@ -33,10 +33,8 @@ function resetUiState() {
 function changeUiStateByClick() {
 
     // 「攻撃」ボタンを押したら、uiStateのmodeをattackに変更する
-    $("#btn-attack").off("click").on("click", () => {
-        uiState.mode = "attack";
-        console.log(uiState.mode);
-    })
+    // 頑張って書く
+
 
     // 「移動」ボタンを押したら、uiStateのmodeをmoveに変更する
     // 頑張って書く
