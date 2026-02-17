@@ -47,16 +47,16 @@ func (position *Position) Neighbors8() ([]*Position, error) {
 			positionNeighbor, err := NewPosition(x+dx, y+dy)
 			if errors.Is(err, share.ErrOutOfBoard) {
 				continue
-			} else if err != nil {
+			}
+			if err != nil {
 				return nil, err
-			} else {
-				isEqual, err := positionNeighbor.isEqual(position)
-				if err != nil {
-					return nil, err
-				}
-				if !isEqual {
-					positions = append(positions, positionNeighbor)
-				}
+			}
+			isEqual, err := positionNeighbor.isEqual(position)
+			if err != nil {
+				return nil, err
+			}
+			if !isEqual {
+				positions = append(positions, positionNeighbor)
 			}
 		}
 	}
