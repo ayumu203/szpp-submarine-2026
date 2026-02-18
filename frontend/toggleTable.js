@@ -1,5 +1,5 @@
 // 「予測表示切り替え」ボタンを押したときに、「味方潜水艦」「敵潜水艦」「予測度」の表を切り替える処理
-const DISPLAY_MODES = ["ally", "enemy", "prediction"]
+const DISPLAY_MODES = ["ally", "prediction"]
 
 /**
  * @description 表示するテーブルを切り替える
@@ -28,7 +28,7 @@ function clearBoardView() {
 /**
  * @description 潜水艦がいるセルをmarkerで表示する
  * @param {object} submarines すべての潜水艦
- * @param {string} marker どうやってUIに表示するか(例えば、味方の場合は"●"だった)
+ * @param {string} marker どうやってUIに表示するか(味方の場合は"●")
  */
 function renderBoardBySubmarines(submarines, marker) {
   
@@ -57,11 +57,6 @@ async function renderDisplayMode() {
 
   if (uiState.displayMode === "ally") {
     renderBoardBySubmarines(state.allyBoard.submarines, "●");
-    return;
-  }
-
-  if (uiState.displayMode === "enemy") {
-    renderBoardBySubmarines(state.enemyBoard.submarines, "◆");
     return;
   }
 
