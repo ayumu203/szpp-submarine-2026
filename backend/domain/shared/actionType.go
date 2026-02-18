@@ -6,6 +6,7 @@ type ActionType int
 const (
 	Attack = iota
 	Move
+	ActionUnknown
 )
 
 func (a ActionType) String() string {
