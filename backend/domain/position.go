@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"backend/domain/shared"
+	shared "backend/domain/shared"
 	"errors"
 )
 
