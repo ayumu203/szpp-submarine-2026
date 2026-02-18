@@ -7,7 +7,7 @@ const DISPLAY_MODES = ["ally", "prediction"]
  * @returns {string} 次の状態
  */
 function toggleDisplayMode(currentMode) {
-    // 今の状態が"ally"なら"prediction"を、そうでないのなら"ally"を返り値とする。
+    // 今の状態が"ally"なら"prediction"を返す。
 }
 
 function clearBoardView() {
