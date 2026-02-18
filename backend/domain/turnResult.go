@@ -1,19 +1,19 @@
 package domain
 
 import (
-	share "backend/domain/shared"
+	shared "backend/domain/shared"
 )
 
 type TurnResult struct {
-	AttackReport share.AttackReportType
-	MoveReport   share.MoveReportType
-	errorCode    share.ErrorCode
+	AttackReport shared.AttackReportType
+	MoveReport   shared.MoveReportType
+	errorCode    shared.ErrorCode
 	HitCount     int
 	sunkCount    int
 	nextPlayerId share.PlayerId
 }
 
-func (tr *TurnResult) GetErrorCode() share.ErrorCode {
+func (tr *TurnResult) GetErrorCode() shared.ErrorCode {
 	return tr.errorCode
 }
 

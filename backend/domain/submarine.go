@@ -11,6 +11,8 @@ type Submarine struct {
 	hp       int
 }
 
+const minDamage = 1
+
 func NewSubmarine(id shared.SubmarineId, ownerId shared.PlayerId, position *Position, hp int) (*Submarine, error) {
 	if id == "" {
 		return nil, shared.ErrSubmarineIdIsEmpty
@@ -37,6 +39,39 @@ func NewSubmarine(id shared.SubmarineId, ownerId shared.PlayerId, position *Posi
 		position: position,
 		hp:       hp,
 	}, nil
+}
+
+func (submarine *Submarine) IsSunk() bool {
+	if submarine.hp <= 0 {
+		return true
+	}
+	return false
+}
+
+func (submarine *Submarine) TakeDamage(amount int) error {
+	if submarine.IsSunk() {
+		return shared.ErrSubmarineAlreadySunk
+	}
+	if amount < minDamage {
+		return shared.ErrInvalidDamageAmount
+	}
+	submarine.hp -= amount
+	return nil
+}
+
+func (submarine *Submarine) MoveTo(newPosition *Position) error {
+	if newPosition == nil {
+		return shared.ErrPositionIsNil
+	}
+	isWithin, err := newPosition.withinBoard()
+	if err != nil {
+		return err
+	}
+	if !isWithin {
+		return shared.ErrOutOfBoard
+	}
+	submarine.position = newPosition
+	return nil
 }
 
 func (submarine *Submarine) GetId() shared.SubmarineId {
