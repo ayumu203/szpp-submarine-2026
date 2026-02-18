@@ -8,4 +8,7 @@ const (
 	InvalidTarget
 	InvalidMoveDistance
 	OutOfBoard
+	BoardIsNil
+	SubmarineNotFound
+	InvalidDirection
 )

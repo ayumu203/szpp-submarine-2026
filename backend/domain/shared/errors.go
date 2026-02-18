@@ -11,4 +11,7 @@ var (
 	ErrInvalidMoveDistance = errors.New("Error[Move.go]: 移動距離が不正です．")
 	ErrOutOfBoard          = errors.New("Error[Position.go]: 場所がボードの外です．")
 	ErrPositionIsNil       = errors.New("Error[Position.go]: Positionがnilです．")
+	ErrBoardIsNil          = errors.New("Error[Board.go]: Boardがnilです．")
+	ErrSubmarineNotFound   = errors.New("Error[Board.go]: Submarineが見つかりませんでした．")
+	ErrInvalidDirection    = errors.New("Error[Direction.go]: 方角が不正です．")
 )
