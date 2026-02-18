@@ -399,7 +399,7 @@ func TestFindTargets(t *testing.T) {
 		expectedTargetNum int
 	}{
 		{
-			name:              "[FindTarget: 攻撃範囲内に敵潜水艦が1隻]",
+			name:              "[FindTargets: 攻撃範囲内に敵潜水艦が1隻]",
 			attackerId:        shared.PlayerId("p1"),
 			defenderId:        shared.PlayerId("p2"),
 			attackerSubId:     shared.SubmarineId("s1"),
@@ -413,7 +413,7 @@ func TestFindTargets(t *testing.T) {
 			expectedTargetNum: 1,
 		},
 		{
-			name:              "攻撃範囲外に敵潜水艦",
+			name:              "[FindTargets: 攻撃範囲外に敵潜水艦]",
 			attackerId:        shared.PlayerId("p1"),
 			defenderId:        shared.PlayerId("p2"),
 			attackerSubId:     shared.SubmarineId("s1"),
@@ -459,7 +459,7 @@ func TestIsOccupied(t *testing.T) {
 		isOccupied bool
 	}{
 		{
-			name:       "潜水艦が存在するマス",
+			name:       "[IsOccupied: 潜水艦が存在するマス]",
 			playerId:   shared.PlayerId("p1"),
 			subId:      shared.SubmarineId("s1"),
 			placeX:     3,
@@ -469,7 +469,7 @@ func TestIsOccupied(t *testing.T) {
 			isOccupied: true,
 		},
 		{
-			name:       "潜水艦が存在しないマス",
+			name:       "[IsOccupied: 潜水艦が存在しないマス]",
 			playerId:   shared.PlayerId("p1"),
 			subId:      shared.SubmarineId("s1"),
 			placeX:     3,

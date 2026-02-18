@@ -63,7 +63,7 @@ func (board *Board) MoveSubmarine(playerId shared.PlayerId, submarineId shared.S
 	} else {
 		return shared.ErrInvalidMoveDistance
 	}
-	// 一度moveToX, moveToYの値は不正になっても良いことにし，NewPosition()で範囲内かどうかを判定する
+	// 移動先の座標は一時的に範囲外になる可能性がありますが、NewPosition() で検証されます
 	moveOnlyX := moveToX
 	moveOnlyY := moveToY
 	switch direction {
@@ -137,10 +137,16 @@ func (board *Board) MoveSubmarine(playerId shared.PlayerId, submarineId shared.S
 }
 
 func (board *Board) FindTargets(attackerId shared.PlayerId, center *Position) ([]*Submarine, error) {
+	if board == nil {
+		return nil, shared.ErrBoardIsNil
+	}
 	submarines := make([]*Submarine, 0, 4)
 	opponentSubmarines, err := board.GetOpponentSubmarines(attackerId)
 	if err != nil {
 		return nil, err
+	}
+	if center == nil {
+		return nil, shared.ErrPositionIsNil
 	}
 	for _, submarine := range opponentSubmarines {
 		submarinePosition := submarine.GetPosition()
@@ -165,6 +171,9 @@ func (board *Board) FindTargets(attackerId shared.PlayerId, center *Position) ([
 func (board *Board) IsOccupied(position *Position) (bool, error) {
 	if board == nil {
 		return false, shared.ErrBoardIsNil
+	}
+	if position == nil {
+		return false, shared.ErrPositionIsNil
 	}
 	for _, submarine := range board.submarines {
 		submarinePosition := submarine.GetPosition()
@@ -222,10 +231,10 @@ func (board *Board) GetOpponentSubmarineAt(playerId shared.PlayerId, position *P
 }
 
 func (board *Board) GetAllySubmarines(playerId shared.PlayerId) ([]*Submarine, error) {
-	submarines := make([]*Submarine, 0, 4)
 	if board == nil {
 		return nil, shared.ErrBoardIsNil
 	}
+	submarines := make([]*Submarine, 0, 4)
 	for _, submarine := range board.submarines {
 		submarineOwnerId := submarine.GetOwnerId()
 		if playerId == submarineOwnerId {
@@ -235,10 +244,10 @@ func (board *Board) GetAllySubmarines(playerId shared.PlayerId) ([]*Submarine, e
 	return submarines, nil
 }
 func (board *Board) GetOpponentSubmarines(playerId shared.PlayerId) ([]*Submarine, error) {
-	submarines := make([]*Submarine, 0, 4)
 	if board == nil {
 		return nil, shared.ErrBoardIsNil
 	}
+	submarines := make([]*Submarine, 0, 4)
 	for _, submarine := range board.submarines {
 		submarineOwnerId := submarine.GetOwnerId()
 		if playerId != submarineOwnerId {
