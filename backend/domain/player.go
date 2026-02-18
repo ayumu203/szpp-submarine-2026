@@ -6,11 +6,12 @@ import (
 )
 
 type Player struct {
-	id   string
-	name string
+	id         string
+	name       string
+	submarines []*Submarine
 }
 
-func NewPlayer(id string, name string) (*Player, error) {
+func NewPlayer(id string, name string, submarines []*Submarine) (*Player, error) {
 	if strings.TrimSpace(id) == "" {
 		return nil, shared.ErrInvalidPlayerID
 	}
@@ -18,8 +19,9 @@ func NewPlayer(id string, name string) (*Player, error) {
 		return nil, shared.ErrInvalidPlayerName
 	}
 	return &Player{
-		id:   id,
-		name: strings.TrimSpace(name),
+		id:         id,
+		name:       strings.TrimSpace(name),
+		submarines: submarines,
 	}, nil
 }
 
@@ -27,9 +29,11 @@ func (player *Player) RemainingHp() int {
 	if player == nil {
 		return 0
 	}
-	// submarineマージまでの対応.
-	// interface を呼び出す(sugaくんの実装).
-	return 12
+	hp := 0
+	for _, s := range player.submarines {
+		hp += s.GetHp()
+	}
+	return hp
 }
 
 func (player *Player) GetId() string {
@@ -44,4 +48,13 @@ func (player *Player) GetName() string {
 		return ""
 	}
 	return player.name
+}
+
+func (player *Player) GetSubmarines() []*Submarine {
+	if player == nil {
+		return nil
+	}
+	cp := make([]*Submarine, len(player.submarines))
+	copy(cp, player.submarines)
+	return cp
 }
