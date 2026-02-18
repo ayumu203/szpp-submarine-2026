@@ -7,7 +7,7 @@ const DISPLAY_MODES = ["ally", "prediction"]
  * @returns {string} 次の状態
  */
 function toggleDisplayMode(currentMode) {
-    // 今の状態が"ally"なら"prediction"を返す。
+  return currentMode === "ally" ? "prediction" : "ally";
 }
 
 function clearBoardView() {
@@ -63,7 +63,7 @@ function bindDisplayToggle() {
   $("#btn-display")
     .off("click.displayMode")
     .on("click.displayMode", async function () {
-      uiState.displayMode = getNextDisplayMode(uiState.displayMode);
+      uiState.displayMode = toggleDisplayMode(uiState.displayMode);
       await renderDisplayMode();
     });
 }
