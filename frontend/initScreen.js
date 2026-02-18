@@ -30,26 +30,41 @@ function resetUiState() {
 /**
  * @description 各ボタンを押したときにuiStateを更新する
  */
+
+
 function changeUiStateByClick() {
 
     // 「攻撃」ボタンを押したら、uiStateのmodeをattackに変更する
-    // 頑張って書く
-
+    $('#btn-attack').on('click',function(){
+        uiState.mode = "attack";   
+    });  
 
     // 「移動」ボタンを押したら、uiStateのmodeをmoveに変更する
-    // 頑張って書く
+    $('#btn-move').on('click',function(){
+        uiState.mode = "move";   
+    });  
 
 
     // 「予測表示切り替え」ボタンを押したら、uiStateのdisplayModeを"適切に"変更する
-    // 頑張って書く
-
+    $('#btn-display').on('click',function(){
+        if(uiState.displayMode== "ally"){
+           uiState.displayMode= "prediction"; 
+        }else if(uiState.displayMode== "prediction"){
+           uiState.displayMode= "ally"; 
+        }
+    });    
 
     // 「戻る」ボタンを押したら、uiStateのselectedCellをnullに、modeをidleに変更する
-    // 頑張って書く
+    $('#btn-back').on('click',function(){
+        uiState.selectedCell = "null";
+        uiState.mode = "idle";   
+    });    
 
 
     // 「決定」ボタンを押したら、現在のuiStateを出力(console.log)する
-    // 頑張って書く
+    $('#btn-apply').on('click',function(){
+        console.log(uiState);
+    });
 
 }
 
@@ -58,16 +73,19 @@ function changeUiStateByClick() {
  */
 async function initializeScreen() {
     // テーブルが存在しなかったらreturn
+    if(!validateRequiredElements()){
+       return;
+    }
 
     // UIをリセットする関数を呼び出す
-
+    resetUiState();
     // uiStateを変更する関数を呼び出す
-
+    changeUiStateByClick();
     // main.jsの関数を使って、潜水艦を表示する
-
+    renderSubmarines();
     
-    bindDisplayToggle();
-    await renderDisplayMode();
+    // bindDisplayToggle();
+    // await renderDisplayMode();
 }
 
 $(initializeScreen)
