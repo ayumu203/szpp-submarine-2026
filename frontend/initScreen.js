@@ -62,15 +62,7 @@ function changeUiStateByClick() {
     });
 
 
-    // 「予測表示切り替え」ボタンを押したら、uiStateのdisplayModeを"適切に"変更する
-    // $('#btn-display').on('click',function(){
-    //     if(uiState.displayMode== "ally"){
-    //        uiState.displayMode= "prediction"; 
-    //     }else if(uiState.displayMode== "prediction"){
-    //        uiState.displayMode= "ally"; 
-    //     }
-    // });    
-
+    // 「予測表示切り替え」ボタンのクリック時処理は別途実装箇所で制御する
     // 「戻る」ボタンを押したら、uiStateのselectedCellをnullに、modeをidleに変更する
     $('#btn-back').on('click', function () {
         uiState.selectedCell = null;
