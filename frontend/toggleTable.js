@@ -28,12 +28,12 @@ function renderBoardBySubmarines(submarines, marker) {
   const submarines_list = Object.values(submarines);
 
   submarines_list.forEach((submarine) => {
-    if(submarine.x < 1||submarine.x>BOARD_SIZE || submarine.y<1||submarine.y>BOARD_SIZE)return;
+    if (submarine.x < 1 || submarine.x > BOARD_SIZE || submarine.y < 1 || submarine.y > BOARD_SIZE) return;
 
-    if(submarine.sunk){
-      fieldTable.roes[submarine.y].cells[submarine.x].textContent="S";
-    }else{
-      fieldTable.roes[submarine.y].cells[submarine.x].textContent=marker;
+    if (submarine.sunk) {
+      fieldTable.rows[submarine.y].cells[submarine.x].textContent = "S";
+    } else {
+      fieldTable.rows[submarine.y].cells[submarine.x].textContent = marker;
     }
   });
 }
@@ -84,6 +84,7 @@ function bindDisplayToggle() {
     .off("click.displayMode")
     .on("click.displayMode", async function () {
       uiState.displayMode = toggleDisplayMode(uiState.displayMode);
+      console.log(uiState.displayMode);
       await renderDisplayMode();
     });
 }

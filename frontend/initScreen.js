@@ -28,6 +28,23 @@ function resetUiState() {
 }
 
 /**
+ * @description 現在の手番ステータスをヘッダーに表示する
+ * @param {object} gameState ゲーム状態
+ * @param {string} viewerPlayerId 表示中プレイヤーID
+ */
+function renderTurnStatus(gameState, viewerPlayerId) {
+    const statusElement = document.getElementById("turn-status");
+    if (!statusElement) {
+        return;
+    }
+
+    const isMyTurn = gameState.currentPlayerId === viewerPlayerId;
+    statusElement.textContent = isMyTurn
+        ? "あなたのターンです"
+        : "相手ターンです";
+}
+
+/**
  * @description 各ボタンを押したときにuiStateを更新する
  */
 
@@ -35,14 +52,14 @@ function resetUiState() {
 function changeUiStateByClick() {
 
     // 「攻撃」ボタンを押したら、uiStateのmodeをattackに変更する
-    $('#btn-attack').on('click',function(){
-        uiState.mode = "attack";   
-    });  
+    $('#btn-attack').on('click', function () {
+        uiState.mode = "attack";
+    });
 
     // 「移動」ボタンを押したら、uiStateのmodeをmoveに変更する
-    $('#btn-move').on('click',function(){
-        uiState.mode = "move";   
-    });  
+    $('#btn-move').on('click', function () {
+        uiState.mode = "move";
+    });
 
 
     // 「予測表示切り替え」ボタンを押したら、uiStateのdisplayModeを"適切に"変更する
@@ -55,14 +72,14 @@ function changeUiStateByClick() {
     // });    
 
     // 「戻る」ボタンを押したら、uiStateのselectedCellをnullに、modeをidleに変更する
-    $('#btn-back').on('click',function(){
+    $('#btn-back').on('click', function () {
         uiState.selectedCell = "null";
-        uiState.mode = "idle";   
-    });    
+        uiState.mode = "idle";
+    });
 
 
     // 「決定」ボタンを押したら、現在のuiStateを出力(console.log)する
-    $('#btn-apply').on('click',function(){
+    $('#btn-apply').on('click', function () {
         console.log(uiState);
     });
 
@@ -73,8 +90,8 @@ function changeUiStateByClick() {
  */
 async function initializeScreen() {
     // テーブルが存在しなかったらreturn
-    if(!validateRequiredElements()){
-       return;
+    if (!validateRequiredElements()) {
+        return;
     }
 
     // UIをリセットする関数を呼び出す
@@ -83,9 +100,35 @@ async function initializeScreen() {
     changeUiStateByClick();
     // main.jsの関数を使って、潜水艦を表示する
     renderSubmarines();
-    
-    // bindDisplayToggle();
-    // await renderDisplayMode();
+
+    bindDisplayToggle();
+    await renderDisplayMode();
+
+    const data = await getMock();
+    const gameState = data.State.GetGameStateResponse;
+    const initializeResponse = data.Initialize?.InitializeGameResponse;
+    const viewerPlayerId = data.State.GetGameStateRequest.viewerPlayerId;
+    const synchronizedGameState = {
+        ...gameState,
+        currentPlayerId: initializeResponse?.currentPlayerId ?? gameState.currentPlayerId
+    };
+
+    renderTurnStatus(synchronizedGameState, viewerPlayerId);
+
+    if (typeof syncAttackContextFromState === "function") {
+        attackTurnState.viewerPlayerId = viewerPlayerId;
+        syncAttackContextFromState(synchronizedGameState);
+    }
+    if (typeof bindAttackFlowEvents === "function") {
+        bindAttackFlowEvents();
+    }
+
+    if (typeof syncMoveContextFromState === "function") {
+        syncMoveContextFromState(synchronizedGameState, viewerPlayerId);
+    }
+    if (typeof bindMoveFlowEvents === "function") {
+        bindMoveFlowEvents();
+    }
 }
 
 $(initializeScreen)

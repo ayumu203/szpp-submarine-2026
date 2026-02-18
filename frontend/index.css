@@ -38,6 +38,12 @@ header {
     text-align: center;
 }
 
+.turn-status {
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 /* メイン */
 main {
     background-color:whitesmoke;
@@ -60,6 +66,34 @@ main {
   gap: 16px;               
   margin-top: 20px;       
 } */
+
+/* 攻撃フローのハイライト */
+.attack-clickable {
+    outline: 2px solid #2b8a3e;
+    cursor: pointer;
+}
+
+.attack-selected-target {
+    background-color: #ffe066 !important;
+}
+
+/* 移動フローのハイライト */
+.move-clickable {
+    outline: 2px solid #1971c2;
+    cursor: pointer;
+}
+
+.move-source {
+    background-color: #ffd8a8 !important;
+}
+
+.move-candidate {
+    background-color: #d3f9d8 !important;
+}
+
+.move-destination {
+    background-color: #8ce99a !important;
+}
 
 
 /* フッター */
