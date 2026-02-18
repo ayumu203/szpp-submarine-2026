@@ -73,7 +73,7 @@ function changeUiStateByClick() {
 
     // 「戻る」ボタンを押したら、uiStateのselectedCellをnullに、modeをidleに変更する
     $('#btn-back').on('click', function () {
-        uiState.selectedCell = "null";
+        uiState.selectedCell = null;
         uiState.mode = "idle";
     });
 
