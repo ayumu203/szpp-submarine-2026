@@ -17,7 +17,7 @@ func NewActionCommand(
 	direction shared.Direction,
 	distance int,
 ) (*ActionCommand, error) {
-	if actionType == shared.Move && (distance < shared.MinDistance || distance > shared.MaxDistance) {
+	if actionType == shared.Move && (distance < shared.MinMoveDistance || distance > shared.MaxMoveDistance) {
 		return nil, shared.ErrInvalidMoveDistance
 	}
 	actionCommand := ActionCommand{
