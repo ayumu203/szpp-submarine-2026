@@ -1,4 +1,3 @@
-// Direction represents a movement or facing direction on the board
 package shared
 
 type Direction int
@@ -8,6 +7,7 @@ const (
 	East
 	South
 	West
+	DirectionUnknown
 )
 
 func (d Direction) String() string {

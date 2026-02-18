@@ -10,7 +10,7 @@ type TurnResult struct {
 	errorCode    shared.ErrorCode
 	HitCount     int
 	sunkCount    int
-	nextPlayerId string
+	nextPlayerId share.PlayerId
 }
 
 func (tr *TurnResult) GetErrorCode() shared.ErrorCode {
@@ -21,6 +21,6 @@ func (tr *TurnResult) GetSunkCount() int {
 	return tr.sunkCount
 }
 
-func (tr *TurnResult) GetNextPlayerId() string {
+func (tr *TurnResult) GetNextPlayerId() share.PlayerId {
 	return tr.nextPlayerId
 }

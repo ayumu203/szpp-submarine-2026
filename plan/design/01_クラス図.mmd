@@ -5,16 +5,16 @@ namespace presentation {
   class GameHandler {
     +HandleInitialize(req)
     +HandleAction(req)
-    +HandleState(gameId, viewerPlayerId)
+    +HandleState(gameId: GameId, viewerPlayerId: PlayerId)
   }
 }
 
 namespace application {
   class GameService {
-    +InitializeGame(playerAId, playerBId, playerAPosition) Game
-    +ExecuteTurn(gameId, command) TurnResult
-    +ExecuteCpuTurn(gameId, playerId) TurnResult
-    +GetGameState(gameId, viewerPlayerId) GameState
+    +InitializeGame(playerAId: PlayerId, playerBId: PlayerId, playerAPosition) Game
+    +ExecuteTurn(gameId: GameId, command) TurnResult
+    +ExecuteCpuTurn(gameId: GameId, playerId: PlayerId) TurnResult
+    +GetGameState(gameId: GameId, viewerPlayerId: PlayerId) GameState
   }
 
   class CpuDecisionService {
@@ -22,17 +22,17 @@ namespace application {
   }
 
   class CpuAnalysisService {
-    +RecordTurn(gameId, turnLog)
-    +UpdatePrediction(gameId) PredictionBoard
-    +GetPrediction(gameId) PredictionBoard
+    +RecordTurn(gameId: GameId, turnLog)
+    +UpdatePrediction(gameId: GameId) PredictionBoard
+    +GetPrediction(gameId: GameId) PredictionBoard
   }
 
   class GameState {
-    +gameId string
+    +gameId GameId
     +turn int
     +status GameStatus
-    +currentPlayerId string
-    +opponentId string
+    +currentPlayerId PlayerId
+    +opponentId PlayerId
     +board Board
     +predictionBoard PredictionBoard
     +logs TurnLog[]
@@ -41,13 +41,13 @@ namespace application {
 
 namespace domain {
   class Game {
-    -id string
+    -id GameId
     -status GameStatus
     -turn int
-    -playerAId string
-    -playerBId string
-    -currentPlayerId string
-    -winnerId string
+    -playerAId PlayerId
+    -playerBId PlayerId
+    -currentPlayerId PlayerId
+    -winnerId PlayerId
     -createdAt string
     -updatedAt string
     +Start()
@@ -56,26 +56,26 @@ namespace domain {
   }
 
   class Board {
-    -submarines map~string,Submarine~
-    +PlaceSubmarine(playerId, position) error
-    +MoveSubmarine(playerId, submarineId, direction, distance) bool
-    +FindTargets(attackerId, center) Submarine[]
+    -submarines map~SubmarineId,Submarine~
+    +PlaceSubmarine(playerId: PlayerId, position) error
+    +MoveSubmarine(playerId: PlayerId, submarineId: SubmarineId, direction, distance) bool
+    +FindTargets(attackerId: PlayerId, center) Submarine[]
     +IsOccupied(position) bool
-    +GetAllySubmarineAt(playerId, position) Submarine
-    +GetOpponentSubmarineAt(playerId,position) Submarine
-    +GetAllySubmarines(playerId) Submarine[]
-    +GetOpponentSubmarines(playerId) Submarine[]
+    +GetAllySubmarineAt(playerId: PlayerId, position) Submarine
+    +GetOpponentSubmarineAt(playerId: PlayerId, position) Submarine
+    +GetAllySubmarines(playerId: PlayerId) Submarine[]
+    +GetOpponentSubmarines(playerId: PlayerId) Submarine[]
   }
 
   class Player {
-    -id string
+    -id PlayerId
     -name string
     +RemainingHp() int
   }
 
   class Submarine {
-    -id string
-    -ownerId string
+    -id SubmarineId
+    -ownerId PlayerId
     -position Position
     -hp int
     +IsSunk() bool
@@ -93,7 +93,7 @@ namespace domain {
   }
 
   class ActionCommand {
-    -playerId string
+    -playerId PlayerId
     -type ActionType
     -target Position
     -direction Direction
@@ -105,13 +105,13 @@ namespace domain {
     -moveReport MoveReportType
     -errorCode ErrorCode
     -sunkCount int
-    -nextPlayerId string
+    -nextPlayerId PlayerId
   }
 
   class TurnLog {
-    -gameId string
+    -gameId GameId
     -turn int
-    -playerId string
+    -playerId PlayerId
     -actionType ActionType
     -target Position
     -direction Direction
@@ -131,32 +131,47 @@ namespace domain {
     +MarkHighWave(position, weight)
     +MarkSunk(position, weight)
     +BestAttackCell() Position
-    +BestMoveCell(submarineId: string) Position
+    +BestMoveCell(submarineId: SubmarineId) Position
+  }
+
+  class GameId {
+    -value string
+    +String() string
+  }
+
+  class PlayerId {
+    -value string
+    +String() string
+  }
+
+  class SubmarineId {
+    -value string
+    +String() string
   }
 
   class GameRepository {
     <<interface>>
     +Save(game) error
-    +FindById(gameId) Game
+    +FindById(gameId: GameId) Game
   }
 
   class TurnLogRepository {
     <<interface>>
-    +Append(gameId,log) error
-    +FindByGameId(gameId) TurnLog[]
+    +Append(gameId: GameId, log) error
+    +FindByGameId(gameId: GameId) TurnLog[]
   }
 
   class PredictionRepository {
     <<interface>>
-    +Save(gameId, board) error
-    +Find(gameId) PredictionBoard
+    +Save(gameId: GameId, board) error
+    +Find(gameId: GameId) PredictionBoard
   }
 
   class PlayerGamesIndexRepository {
     <<interface>>
-    +AddGame(playerId, gameId) error
-    +RemoveGame(playerId, gameId) error
-    +ListGames(playerId) string[]
+    +AddGame(playerId: PlayerId, gameId: GameId) error
+    +RemoveGame(playerId: PlayerId, gameId: GameId) error
+    +ListGames(playerId: PlayerId) GameId[]
   }
 
   class CpuPlayer {
@@ -213,7 +228,7 @@ namespace domain {
 namespace infrastructure {
   class UpstashGameRepository {
     +Save(game) error
-    +FindById(gameId) Game
+    +FindById(gameId: GameId) Game
   }
 
   class RandomCpuPlayer {
@@ -221,19 +236,19 @@ namespace infrastructure {
   }
 
   class UpstashTurnLogRepository {
-    +Append(gameId, log) error
-    +FindByGameId(gameId) TurnLog[]
+    +Append(gameId: GameId, log) error
+    +FindByGameId(gameId: GameId) TurnLog[]
   }
 
   class UpstashPredictionRepository {
-    +Save(gameId, playerId, board) error
-    +Find(gameId, playerId) PredictionBoard
+    +Save(gameId: GameId, playerId: PlayerId, board) error
+    +Find(gameId: GameId, playerId: PlayerId) PredictionBoard
   }
 
   class UpstashPlayerGamesIndexRepository {
-    +AddGame(playerId, gameId) error
-    +RemoveGame(playerId, gameId) error
-    +ListGames(playerId) string[]
+    +AddGame(playerId: PlayerId, gameId: GameId) error
+    +RemoveGame(playerId: PlayerId, gameId: GameId) error
+    +ListGames(playerId: PlayerId) GameId[]
   }
 }
 
@@ -254,6 +269,9 @@ Game --> Board : has
 Game --> Player : has 2
 Player --> Submarine : owns 0..4
 Submarine --> Position : has
+Game --> GameId : uses
+Player --> PlayerId : uses
+Submarine --> SubmarineId : uses
 Game --> ActionCommand : applies
 Game --> TurnResult : returns
 Game --> TurnLog : emits
