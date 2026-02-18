@@ -19,7 +19,7 @@ func NewPlayer(id string, name string) (*Player, error) {
 	}
 	return &Player{
 		id:   id,
-		name: name,
+		name: strings.TrimSpace(name),
 	}, nil
 }
 
@@ -30,4 +30,18 @@ func (player *Player) RemainingHp() int {
 	// submarineマージまでの対応.
 	// interface を呼び出す(sugaくんの実装).
 	return 12
+}
+
+func (player *Player) GetId() string {
+	if player == nil {
+		return ""
+	}
+	return player.id
+}
+
+func (player *Player) GetName() string {
+	if player == nil {
+		return ""
+	}
+	return player.name
 }
