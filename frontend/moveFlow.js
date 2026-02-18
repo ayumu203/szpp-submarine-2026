@@ -44,7 +44,7 @@ let allySubmarines = [];
  * @description 現在が自分のターンか
  * @returns {boolean} trueなら自分のターン
  */
-function isMyTurn() {
+function isMyMoveTurn() {
     return turnState.currentPlayerId === turnState.viewerPlayerId;
 }
 
@@ -165,9 +165,9 @@ function toDirectionAndDistance(from, to) {
     } else if (dx < 0) {
       direction = "west";
     } else if (dy > 0) {
-      direction = "north";
-    } else if (dy < 0) {
       direction = "south";
+    } else if (dy < 0) {
+      direction = "north";
     }
 
     return {direction, distance}
@@ -237,8 +237,12 @@ function updateClickableControlsByPhase() {
 }
 
 function startMoveFlow() {
-  if (!isMyTurn()) return;
+  if (!isMyMoveTurn()) return;
   if (moveFlowState.hasMovedThisTurn) return; // 1ターン1隻
+
+  if (typeof uiState !== "undefined") {
+    uiState.mode = "move";
+  }
 
   moveFlowState.phase = "selectSource";
   moveFlowState.selectedSource = null;
@@ -254,6 +258,12 @@ function cancelMoveFlow() {
   moveFlowState.selectedSource = null;
   moveFlowState.selectedDestination = null;
   moveFlowState.candidateDestinations = [];
+
+  if (typeof uiState !== "undefined") {
+    uiState.mode = "idle";
+    uiState.selectedCell = null;
+  }
+
   updateClickableControlsByPhase();
   clearMoveHighlights();
 }
@@ -386,7 +396,7 @@ function syncMoveContextFromState(gameState, viewerPlayerId) {
     sunk: submarine.sunk
   }));
 
-  if (isMyTurn()) {
+  if (isMyMoveTurn()) {
     moveFlowState.hasMovedThisTurn = false;
     if (moveFlowState.phase === "opponentTurn") {
       moveFlowState.phase = "idle";

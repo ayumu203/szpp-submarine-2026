@@ -132,6 +132,10 @@ function startAttackFlow() {
     if (!isMyAttackTurn()) return;
     if (attackFlowState.hasAttackedThisTurn) return;
 
+    if (typeof uiState !== "undefined") {
+        uiState.mode = "attack";
+    }
+
     attackFlowState.phase = "selectAttacker";
     attackFlowState.selectedAttacker = null;
     attackFlowState.selectedTarget = null;
@@ -145,6 +149,12 @@ function cancelAttackFlow() {
     attackFlowState.selectedAttacker = null;
     attackFlowState.selectedTarget = null;
     attackFlowState.candidateTargets = [];
+
+    if (typeof uiState !== "undefined") {
+        uiState.mode = "idle";
+        uiState.selectedCell = null;
+    }
+
     updateAttackClickableControlsByPhase();
     clearAttackHighlights();
 }

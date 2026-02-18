@@ -45,39 +45,6 @@ function renderTurnStatus(gameState, viewerPlayerId) {
 }
 
 /**
- * @description 各ボタンを押したときにuiStateを更新する
- */
-
-
-function changeUiStateByClick() {
-
-    // 「攻撃」ボタンを押したら、uiStateのmodeをattackに変更する
-    $('#btn-attack').on('click', function () {
-        uiState.mode = "attack";
-    });
-
-    // 「移動」ボタンを押したら、uiStateのmodeをmoveに変更する
-    $('#btn-move').on('click', function () {
-        uiState.mode = "move";
-    });
-
-
-    // 「予測表示切り替え」ボタンのクリック時処理は別途実装箇所で制御する
-    // 「戻る」ボタンを押したら、uiStateのselectedCellをnullに、modeをidleに変更する
-    $('#btn-back').on('click', function () {
-        uiState.selectedCell = null;
-        uiState.mode = "idle";
-    });
-
-
-    // 「決定」ボタンを押したら、現在のuiStateを出力(console.log)する
-    $('#btn-apply').on('click', function () {
-        console.log(uiState);
-    });
-
-}
-
-/**
  * @description ゲーム開始時の画面を作成する
  */
 async function initializeScreen() {
@@ -88,8 +55,6 @@ async function initializeScreen() {
 
     // UIをリセットする関数を呼び出す
     resetUiState();
-    // uiStateを変更する関数を呼び出す
-    changeUiStateByClick();
     // main.jsの関数を使って、潜水艦を表示する
     renderSubmarines();
 
