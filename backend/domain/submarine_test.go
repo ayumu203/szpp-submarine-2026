@@ -19,11 +19,11 @@ func TestNewSubmarine(t *testing.T) {
 	}
 	for _, tl := range testList {
 		t.Run(tl.name, func(t *testing.T) {
-			submarine, err := NewSubmarine(tl.id, tl.ownerId, tl.position, tl.hp)
+			submarine, err := NewSubmarine(tl.id, tl.ownerId, &tl.position, tl.hp)
 			assert.NoError(t, err)
 			assert.Equal(t, tl.id, submarine.GetId())
 			assert.Equal(t, tl.ownerId, submarine.GetOwnerId())
-			assert.Equal(t, tl.position, submarine.GetPosition())
+			assert.Equal(t, tl.position, *submarine.GetPosition())
 			assert.Equal(t, tl.hp, submarine.GetHp())
 		})
 	}
@@ -45,7 +45,7 @@ func TestNewSubmarineFail(t *testing.T) {
 	}
 	for _, tl := range testList {
 		t.Run(tl.name, func(t *testing.T) {
-			submarine, err := NewSubmarine(tl.id, tl.ownerId, tl.position, tl.hp)
+			submarine, err := NewSubmarine(tl.id, tl.ownerId, &tl.position, tl.hp)
 			assert.ErrorIs(t, err, tl.expectedErr)
 			assert.Nil(t, submarine)
 		})

@@ -7,16 +7,19 @@ import (
 type Submarine struct {
 	id       string
 	ownerId  string
-	position Position
+	position *Position
 	hp       int
 }
 
-func NewSubmarine(id string, ownerId string, position Position, hp int) (*Submarine, error) {
+func NewSubmarine(id string, ownerId string, position *Position, hp int) (*Submarine, error) {
 	if id == "" {
 		return nil, shared.ErrSubmarineIdIsEmpty
 	}
 	if ownerId == "" {
 		return nil, shared.ErrOwnerIdIsEmpty
+	}
+	if position == nil {
+		return nil, shared.ErrPositionIsNil
 	}
 	isWithin, err := position.withinBoard()
 	if err != nil {
@@ -44,7 +47,7 @@ func (submarine *Submarine) GetOwnerId() string {
 	return submarine.ownerId
 }
 
-func (submarine *Submarine) GetPosition() Position {
+func (submarine *Submarine) GetPosition() *Position {
 	return submarine.position
 }
 
