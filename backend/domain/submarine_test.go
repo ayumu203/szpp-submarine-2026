@@ -10,8 +10,8 @@ import (
 func TestNewSubmarine(t *testing.T) {
 	testList := []struct {
 		name     string
-		id       string
-		ownerId  string
+		id       shared.SubmarineId
+		ownerId  shared.PlayerId
 		position Position
 		hp       int
 	}{
@@ -32,8 +32,8 @@ func TestNewSubmarine(t *testing.T) {
 func TestNewSubmarineFail(t *testing.T) {
 	testList := []struct {
 		name        string
-		id          string
-		ownerId     string
+		id          shared.SubmarineId
+		ownerId     shared.PlayerId
 		position    *Position
 		hp          int
 		expectedErr error
