@@ -60,12 +60,6 @@ main {
     border-radius: 5px;
     cursor: pointer;
 }
-/* #button-area {
-  display: flex;
-  justify-content: center; 
-  gap: 16px;               
-  margin-top: 20px;       
-} */
 
 /* 攻撃フローのハイライト */
 .attack-clickable {
