@@ -24,6 +24,14 @@ func (board *Board) PlaceSubmarine(playerID shared.PlayerID, position *Position)
 	if err != nil {
 		return err
 	}
+	allySubmarine, err := board.GetAllySubmarineAt(playerID, position)
+	if err != nil {
+		return err
+	}
+	if allySubmarine != nil {
+		return shared.ErrAllySubmarineAlreadyExists
+	}
+
 	board.submarines[submarineID] = submarine
 	return nil
 }
@@ -68,6 +76,26 @@ func (board *Board) MoveSubmarine(playerId shared.PlayerID, submarineId shared.S
 	}
 	if err != nil {
 		return false, err
+	}
+	allySubmarine, err := board.GetAllySubmarineAt(playerId, moveToPosition)
+	if err != nil {
+		return err
+	}
+	if allySubmarine != nil {
+		return false, shared.ErrAllySubmarineAlreadyExists
+	}
+	opponentSubmarine, err := board.GetOpponentSubmarineAt(playerId, moveToPosition)
+	if err != nil {
+		return false, err
+	}
+	if opponentSubmarine != nil {
+		isSunk, err := opponentSubmarine.IsSunk()
+		if err != nil {
+			return false, err
+		}
+		if isSunk {
+			return false, shared.ErrSunkSubmarineAlreadyExists
+		}
 	}
 	err = submarine.MoveTo(moveToPosition)
 	if err != nil {

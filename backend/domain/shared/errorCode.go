@@ -11,4 +11,6 @@ const (
 	BoardIsNil
 	SubmarineNotFound
 	InvalidDirection
+	AllySubmarineAlreadyExists
+	SunkSubmarineAlreadyExists
 )
