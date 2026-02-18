@@ -5,13 +5,13 @@ import (
 )
 
 type Submarine struct {
-	id       string
-	ownerId  string
+	id       shared.SubmarineId
+	ownerId  shared.PlayerId
 	position *Position
 	hp       int
 }
 
-func NewSubmarine(id string, ownerId string, position *Position, hp int) (*Submarine, error) {
+func NewSubmarine(id shared.SubmarineId, ownerId shared.PlayerId, position *Position, hp int) (*Submarine, error) {
 	if id == "" {
 		return nil, shared.ErrSubmarineIdIsEmpty
 	}
@@ -39,11 +39,11 @@ func NewSubmarine(id string, ownerId string, position *Position, hp int) (*Subma
 	}, nil
 }
 
-func (submarine *Submarine) GetId() string {
+func (submarine *Submarine) GetId() shared.SubmarineId {
 	return submarine.id
 }
 
-func (submarine *Submarine) GetOwnerId() string {
+func (submarine *Submarine) GetOwnerId() shared.PlayerId {
 	return submarine.ownerId
 }
 
