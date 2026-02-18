@@ -39,6 +39,36 @@ func NewSubmarine(id shared.SubmarineId, ownerId shared.PlayerId, position *Posi
 	}, nil
 }
 
+func (submarine *Submarine) IsSunk(newPosition *Position) bool {
+	if submarine.hp <= 0 {
+		return true
+	}
+	return false
+}
+
+func (submarine *Submarine) TakeDamage(newPosition *Position) error {
+	if submarine.IsSunk(newPosition) {
+		return shared.ErrSubmarineAlreadySunk
+	}
+	submarine.hp -= 1
+	return nil
+}
+
+func (submarine *Submarine) MoveTo(newPosition *Position) error {
+	if newPosition == nil {
+		return shared.ErrPositionIsNil
+	}
+	isWithin, err := newPosition.withinBoard()
+	if err != nil {
+		return err
+	}
+	if !isWithin {
+		return shared.ErrOutOfBoard
+	}
+	submarine.position = newPosition
+	return nil
+}
+
 func (submarine *Submarine) GetId() shared.SubmarineId {
 	return submarine.id
 }

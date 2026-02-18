@@ -17,4 +17,5 @@ var (
 	ErrActionCommandInvalidParamCombination = errors.New("Error[ActionCommand.go]: actionTypeと他のパラメータ間で矛盾が発生しています．")
 	ErrActionCommandIsNil                   = errors.New("Error[ActionCommand.go]: ActionCommandがnilです．")
 	ErrInvalidActionType                    = errors.New("Error[ActionType.go]: ActionTypeが不正です．")
+	ErrSubmarineAlreadySunk                 = errors.New("Error[Submarine.go]: すでに沈没している潜水艦にダメージを与えようとしています．")
 )
