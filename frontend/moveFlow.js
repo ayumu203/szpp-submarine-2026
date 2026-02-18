@@ -60,7 +60,7 @@ function isSameCell(a, b) {
 
 /**
  * @description 選んだセルの座標情報を取得する
- * @returns {{number, number}} {x座標, y座標}
+ * @returns {{x: number, y: number}} {x座標, y座標}
  */
 function cellToPosition($cell) {
     const row = $cell.parent().index();
@@ -83,7 +83,7 @@ function containsPos(list, pos) {
 
 /**
  * @description その座標に味方潜水艦がいるか
- * @param {{number, number}} pos 座標情報
+ * @param {{x: number, y: number}} pos 座標情報
  */
 function isAllySubmarineAt(pos) {
     return allySubmarines.some(s => !s.sunk && s.x === pos.x && s.y === pos.y);
@@ -94,7 +94,7 @@ function isAllySubmarineAt(pos) {
  * ルール: 東西南北1～2マス、盤外NG、占有セルNG、経路上に撃沈艦があればその先不可
  * @param {object} source 選択した潜水艦
  * @param {object} submarines 敵味方すべての潜水艦
- * @returns {[{number, number}, ...]} 移動可能な座標のリスト
+ * @returns {[{x: number, y: number}, ...]} 移動可能な座標のリスト
  */
 function calculateMoveCandidates(source, submarines) {
     // 方角を座標に変換
@@ -140,9 +140,9 @@ function calculateMoveCandidates(source, submarines) {
 
 /**
  * @description 移動先がもとの場所から「どの方角に」「何マス離れているか」を計算する
- * @param {{number, number}} from 元々いた座標
- * @param {{number, number}} to 移動先の座標
- * @returns {{string, number}} {方角, 移動距離}
+ * @param {{x: number, y: number}} from 元々いた座標
+ * @param {{x: number, y: number}} to 移動先の座標
+ * @returns {{direction: string, distance number}} {方角, 移動距離}
  */
 function toDirectionAndDistance(from, to) {
     // dx, dyにはそれぞれ「移動先の座標」-「元々いた座標」を代入する
