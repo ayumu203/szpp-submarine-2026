@@ -303,6 +303,15 @@ async function confirmMoveStep2() {
     moveFlowState.selectedDestination
   );
 
+  // [must] window.currentGameId 未設定時の防御的チェック
+  if (typeof window === "undefined" || window.currentGameId == null) {
+    console.error("[moveFlow] window.currentGameId が未設定のため、移動アクションを送信できません。");
+    // フェーズと UI を「移動先選択」状態に戻す
+    moveFlowState.phase = "selectDestination";
+    updateClickableControlsByPhase();
+    renderMoveHighlights();
+    return;
+  }
   const payload = {
     gameId: window.currentGameId,
     playerId: turnState.viewerPlayerId,
