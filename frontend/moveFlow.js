@@ -364,3 +364,27 @@ function bindMoveFlowEvents() {
     handleFieldClickForMove($(this));
   });
 }
+
+function syncMoveContextFromState(gameState, viewerPlayerId) {
+  turnState.viewerPlayerId = viewerPlayerId;
+  turnState.currentPlayerId = gameState.currentPlayerId;
+
+  allySubmarines = Object.entries(gameState.allyBoard.submarines).map(([id, submarine]) => ({
+    id,
+    x: submarine.x,
+    y: submarine.y,
+    hp: submarine.hp,
+    sunk: submarine.sunk
+  }));
+
+  if (isMyTurn()) {
+    moveFlowState.hasMovedThisTurn = false;
+    if (moveFlowState.phase === "opponentTurn") {
+      moveFlowState.phase = "idle";
+    }
+  } else {
+    moveFlowState.phase = "opponentTurn";
+  }
+
+  updateClickableControlsByPhase();
+}
