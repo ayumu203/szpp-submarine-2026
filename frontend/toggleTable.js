@@ -1,4 +1,4 @@
-// 「予測表示切り替え」ボタンを押したときに、「味方潜水艦」「敵潜水艦」「予測度」の表を切り替える処理
+// 「予測表示切り替え」ボタンを押したときに、「味方潜水艦」「予測度」の表を切り替える処理
 const DISPLAY_MODES = ["ally", "prediction"]
 
 /**
@@ -6,14 +6,8 @@ const DISPLAY_MODES = ["ally", "prediction"]
  * @param {string} currentMode 今表示しているテーブルの状態
  * @returns {string} 次の状態
  */
-function getNextDisplayMode(currentMode) {
-    // 表示するテーブルを次の内容に切り替えたい！
-    // ヒント: currentModeには現在表示されているテーブルが何なのかが格納されている。
-    //        DISPLAY_MODES（string型の配列）からcurrentModeがあるインデックスを取得し、その次のインデックスに進めてあげればいい
-    const index = ; // 頑張って書く
-    const nextIndex = ; // 頑張って書く
-
-    return ; // 頑張って書く。jsdocいわく返り値は「次の状態(string)」らしい
+function toggleDisplayMode(currentMode) {
+    // 今の状態が"ally"なら"prediction"を、そうでないのなら"ally"を返り値とする。
 }
 
 function clearBoardView() {
