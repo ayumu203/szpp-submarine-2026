@@ -11,7 +11,7 @@ import (
 func TestNewActionCommandSuccess(t *testing.T) {
 	testList := []struct {
 		name       string
-		playerId   string
+		playerId   shared.PlayerId
 		actionType shared.ActionType
 		targetX    int
 		targetY    int
@@ -59,7 +59,7 @@ func TestNewActionCommandSuccess(t *testing.T) {
 func TestNewActionCommandFail(t *testing.T) {
 	testList := []struct {
 		name          string
-		playerId      string
+		playerId      shared.PlayerId
 		actionType    shared.ActionType
 		targetX       int
 		targetY       int
