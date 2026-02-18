@@ -26,5 +26,7 @@ var (
 	ErrInvalidDirection                     = errors.New("Error[Direction.go]: 方角が不正です．")
 	ErrAllySubmarineAlreadyExists           = errors.New("Error[Board.go]: 指定した場所にはすでに味方の潜水艦がいます．")
 	ErrMovedOverSunkSubmarine               = errors.New("Error[Board.go]: 移動途中に沈没した潜水艦がいます．")
-	ErrSubmarineIDuplicated                 = errors.New("Error[Board.go]: SubmarineIdが重複しています．")
+	ErrSubmarineIdDuplicated                = errors.New("Error[Board.go]: SubmarineIdが重複しています．")
+	ErrPlayerIdNotMatch                     = errors.New("Error[Board.go]: 移動させる潜水艦はPlayerの潜水艦ではありません2．")
+	ErrMoveSunkSubmarine                    = errors.New("Error[Board.go]: 移動させようとした潜水艦は沈没しています．")
 )

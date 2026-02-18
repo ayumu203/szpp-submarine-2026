@@ -183,7 +183,7 @@ func TestMoveSubmarineOutOfBoard(t *testing.T) {
 			err = board.PlaceSubmarine(tl.playerId, tl.submarineId, position)
 			assert.NoError(t, err)
 			err = board.MoveSubmarine(tl.playerId, tl.submarineId, tl.direction, tl.distance)
-			assert.ErrorIs(t, shared.ErrOutOfBoard, err)
+			assert.ErrorIs(t, err, shared.ErrOutOfBoard)
 		})
 	}
 }
@@ -226,6 +226,76 @@ func TestMoveSubmarineInvalidDistance(t *testing.T) {
 			assert.NoError(t, err)
 			err = board.MoveSubmarine(tl.playerId, tl.submarineId, tl.direction, tl.distance)
 			assert.ErrorIs(t, err, shared.ErrInvalidMoveDistance)
+		})
+	}
+}
+
+func TestMoveSubmarineInvalidPlayer(t *testing.T) {
+	testList := []struct {
+		name        string
+		playerId1   shared.PlayerId
+		playerId2   shared.PlayerId
+		submarineId shared.SubmarineId
+		startX      int
+		startY      int
+		direction   shared.Direction
+		distance    int
+	}{
+		{
+			name:        "[MoveSubmarine: 自分のではない潜水艦を移動]",
+			playerId1:   shared.PlayerId("p1"),
+			playerId2:   shared.PlayerId("p2"),
+			submarineId: shared.SubmarineId("s1"),
+			startX:      5,
+			startY:      5,
+			direction:   shared.North,
+			distance:    shared.MaxMoveDistance,
+		},
+	}
+	for _, tl := range testList {
+		t.Run(tl.name, func(t *testing.T) {
+			board := NewBoard()
+			position, err := NewPosition(tl.startX, tl.startY)
+			assert.NoError(t, err)
+			err = board.PlaceSubmarine(tl.playerId1, tl.submarineId, position)
+			assert.NoError(t, err)
+			err = board.MoveSubmarine(tl.playerId2, tl.submarineId, tl.direction, tl.distance)
+			assert.ErrorIs(t, err, shared.ErrPlayerIdNotMatch)
+		})
+	}
+}
+
+func TestMoveSunkSubmarine(t *testing.T) {
+	testList := []struct {
+		name        string
+		playerId    shared.PlayerId
+		submarineId shared.SubmarineId
+		startX      int
+		startY      int
+		direction   shared.Direction
+		distance    int
+	}{
+		{
+			name:        "[MoveSubmarine: 沈没した潜水艦を移動]",
+			playerId:    shared.PlayerId("p1"),
+			submarineId: shared.SubmarineId("s1"),
+			startX:      5,
+			startY:      5,
+			direction:   shared.North,
+			distance:    shared.MaxMoveDistance,
+		},
+	}
+	for _, tl := range testList {
+		t.Run(tl.name, func(t *testing.T) {
+			board := NewBoard()
+			position, err := NewPosition(tl.startX, tl.startY)
+			assert.NoError(t, err)
+			err = board.PlaceSubmarine(tl.playerId, tl.submarineId, position)
+			assert.NoError(t, err)
+			err = board.submarines[tl.submarineId].TakeDamage(3)
+			assert.NoError(t, err)
+			err = board.MoveSubmarine(tl.playerId, tl.submarineId, tl.direction, tl.distance)
+			assert.ErrorIs(t, err, shared.ErrMoveSunkSubmarine)
 		})
 	}
 }
@@ -658,6 +728,6 @@ func TestPlaceSubmarineDuplicateId(t *testing.T) {
 		err = board.PlaceSubmarine(playerId, submarineId, pos1)
 		assert.NoError(t, err)
 		err = board.PlaceSubmarine(playerId, submarineId, pos2)
-		assert.ErrorIs(t, err, shared.ErrSubmarineIDuplicated)
+		assert.ErrorIs(t, err, shared.ErrSubmarineIdDuplicated)
 	})
 }

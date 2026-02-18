@@ -16,6 +16,9 @@ func NewBoard() *Board {
 }
 
 func (board *Board) PlaceSubmarine(playerId shared.PlayerId, submarineId shared.SubmarineId, position *Position) error {
+	if board == nil {
+		return shared.ErrBoardIsNil
+	}
 	submarine, err := NewSubmarine(submarineId, playerId, position, shared.DefaultHP)
 	if err != nil {
 		return err
@@ -29,7 +32,7 @@ func (board *Board) PlaceSubmarine(playerId shared.PlayerId, submarineId shared.
 	}
 
 	if board.submarines[submarineId] != nil {
-		return shared.ErrSubmarineIDuplicated
+		return shared.ErrSubmarineIdDuplicated
 	}
 
 	board.submarines[submarineId] = submarine
@@ -43,6 +46,12 @@ func (board *Board) MoveSubmarine(playerId shared.PlayerId, submarineId shared.S
 	submarine, ok := board.submarines[submarineId]
 	if !ok {
 		return shared.ErrSubmarineNotFound
+	}
+	if submarine.GetOwnerId() != playerId {
+		return shared.ErrPlayerIdNotMatch
+	}
+	if submarine.IsSunk() {
+		return shared.ErrMoveSunkSubmarine
 	}
 	submarinePosition := submarine.GetPosition()
 	moveToX, moveToY, err := submarinePosition.GetPosition()
@@ -100,14 +109,14 @@ func (board *Board) MoveSubmarine(playerId shared.PlayerId, submarineId shared.S
 	if err != nil {
 		return err
 	}
-	if allySubmarineT != nil && allySubmarineT.GetHp() == 0 {
+	if allySubmarineT != nil && allySubmarineT.IsSunk() {
 		return shared.ErrMovedOverSunkSubmarine
 	}
 	opponentSubmarineT, err := board.GetOpponentSubmarineAt(playerId, moveOnlyPosition)
 	if err != nil {
 		return err
 	}
-	if opponentSubmarineT != nil && opponentSubmarineT.GetHp() == 0 {
+	if opponentSubmarineT != nil && opponentSubmarineT.IsSunk() {
 		return shared.ErrMovedOverSunkSubmarine
 	}
 	opponentSubmarine, err := board.GetOpponentSubmarineAt(playerId, moveToPosition)
