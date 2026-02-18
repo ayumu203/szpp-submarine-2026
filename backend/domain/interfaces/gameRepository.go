@@ -1,10 +1,13 @@
 package interfaces
 
-import "context"
+import (
+	"backend/domain/shared"
+	"context"
+)
 
 type GameRepository interface {
 	// Save persists a game identified by gameID.
-	Save(ctx context.Context, gameID string) error
+	Save(ctx context.Context, gameID shared.GameId) error
 	// FindByID retrieves a game by its ID.
-	FindByID(ctx context.Context, gameID string) (interface{}, error)
+	FindByID(ctx context.Context, gameID shared.GameId) (interface{}, error)
 }
