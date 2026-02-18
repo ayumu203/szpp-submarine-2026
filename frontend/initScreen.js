@@ -66,8 +66,8 @@ async function initializeScreen() {
     // main.jsの関数を使って、潜水艦を表示する
 
     
-    bindDisplayToggle();
-    await renderDisplayMode();
+    // bindDisplayToggle();
+    // await renderDisplayMode();
 }
 
 $(initializeScreen)

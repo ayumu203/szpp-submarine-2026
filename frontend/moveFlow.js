@@ -118,19 +118,18 @@ function calculateMoveCandidates(source, submarines) {
         // 2マスまでなら動ける
         for (let step = 1; step <= 2; step++) {
             // 変数nx, nyを宣言し、方角dにstepだけ進んだ先の座標を格納する
-            const nx =  ; // 頑張って書く
-            const ny =  ; // 頑張って書く
+            const nx =  d.dx * step;
+            const ny =  d.dy * step;
             
             if (nx < 1 || nx > BOARD_SIZE || ny < 1 || ny > BOARD_SIZE) break;
 
             const key = `${nx},${ny}`;
 
             // 経路上に撃沈艦があれば進行停止
-            // ヒント: 撃沈艦の集合に対し、keyが存在するかを確かめればいい。
-            // Setの中にkeyがあるかを確かめるには、Setの変数名.has(key)を使う
+            if (sunk.has(key)) break;
 
             // 目的地が占有セルなら不可
-            // 撃沈艦のときと同様
+            if (occupied.has(key)) break;
 
             result.push({x: nx, y: ny});
         }
@@ -142,12 +141,12 @@ function calculateMoveCandidates(source, submarines) {
  * @description 移動先がもとの場所から「どの方角に」「何マス離れているか」を計算する
  * @param {{x: number, y: number}} from 元々いた座標
  * @param {{x: number, y: number}} to 移動先の座標
- * @returns {{direction: string, distance number}} {方角, 移動距離}
+ * @returns {{direction: string, distance: number}} {方角, 移動距離}
  */
 function toDirectionAndDistance(from, to) {
     // dx, dyにはそれぞれ「移動先の座標」-「元々いた座標」を代入する
-    const dx = ; // 頑張って書く
-    const dy = ; // 頑張って書く
+    const dx = to.x - from.x; // 頑張って書く
+    const dy = to.y - from.y; // 頑張って書く
 
     if (dx !== 0 && dy !== 0) {
         throw new Error("斜め移動はできません");
@@ -159,13 +158,16 @@ function toDirectionAndDistance(from, to) {
         throw new Error("移動できるのは1マスまたは2マスのみです");
     }
 
-    // directionには「どの方角に移動したのか」を文字列で格納したい
+    // directionには「どの方角に移動したのか」を文字列で格納する
     let direction = "";
     if (dx > 0) {
-        direction = "east";
-        // 他の方角の場合も考えて書く
-    } else if () {
-
+      direction = "east";
+    } else if (dx < 0) {
+      direction = "west";
+    } else if (dy > 0) {
+      direction = "north";
+    } else if (dy < 0) {
+      direction = "south";
     }
 
     return {direction, distance}
