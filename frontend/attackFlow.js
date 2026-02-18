@@ -13,7 +13,6 @@ const attackTurnState = {
 }
 
 let attackAllySubmarines = [];  // [{x,y,hp,sunk,id}, ...]
-let attackEnemySubmarines = [];
 let currentGameId = null;
 
 function isMyAttackTurn() {
@@ -58,7 +57,6 @@ function getNeighbors8(pos) {
     return result;
 }
 
-// 攻撃先の候補を計算する
 // 攻撃先の候補を計算する（選択した1隻の周囲8マスのみ）
 function getAttackableCells(selectedAttacker) {
     if (!selectedAttacker) {
@@ -167,7 +165,7 @@ function handleFieldClickForAttack($cell) {
     }
 
     if (attackFlowState.phase === "selectTarget") {
-        if (!attackContainsPos(attackFlowState.candidateTargets, pos)) return
+        if (!attackContainsPos(attackFlowState.candidateTargets, pos)) return;
         attackFlowState.selectedTarget = pos;
         renderAttackHighlights();
     }
@@ -186,39 +184,40 @@ function confirmAttackStep1() {
 }
 
 async function confirmAttackStep2() {
-  if (attackFlowState.phase !== "selectTarget") return;
-  if (!attackFlowState.selectedAttacker || !attackFlowState.selectedTarget) return;
+    if (attackFlowState.phase !== "selectTarget") return;
+    if (!attackFlowState.selectedAttacker || !attackFlowState.selectedTarget) return;
 
-  // APIに送信するリクエスト
-  const payload = {
-    gameId: currentGameId,
-    playerId: attackTurnState.viewerPlayerId,
-    actionType: "attack",
-    // 必要なら attackerId も送る（API仕様次第）
-    target: attackFlowState.selectedTarget
-  };
+    // APIに送信するリクエスト
+    const payload = {
+        gameId: currentGameId,
+        playerId: attackTurnState.viewerPlayerId,
+        actionType: "attack",
+        // 必要なら attackerId も送る（API仕様次第）
+        target: attackFlowState.selectedTarget
+    };
 
-  attackFlowState.phase = "submitting";
-  updateAttackClickableControlsByPhase();
+    attackFlowState.phase = "submitting";
+    updateAttackClickableControlsByPhase();
 
-  try {
+    try {
         if (typeof executeAction === "function") {
             await executeAction(payload);
         } else {
             console.log("Attack payload:", payload);
         }
 
-    attackFlowState.hasAttackedThisTurn = true;
-    attackFlowState.phase = "opponentTurn";
-    attackFlowState.selectedAttacker = null;
-    attackFlowState.selectedTarget = null;
-    attackFlowState.candidateTargets = [];
-    clearAttackHighlights();
-  } catch (e) {
-    attackFlowState.phase = "selectTarget";
-    renderAttackHighlights();
-    updateAttackClickableControlsByPhase();
-  }
+        attackFlowState.hasAttackedThisTurn = true;
+        attackFlowState.phase = "opponentTurn";
+        attackFlowState.selectedAttacker = null;
+        attackFlowState.selectedTarget = null;
+        attackFlowState.candidateTargets = [];
+        clearAttackHighlights();
+    } catch (e) {
+        attackFlowState.phase = "selectTarget";
+        renderAttackHighlights();
+        updateAttackClickableControlsByPhase();
+        console.error("攻撃フローの送信に失敗しました: ", e);
+    }
 }
 
 function bindAttackFlowEvents() {
