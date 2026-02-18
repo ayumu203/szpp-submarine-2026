@@ -8,9 +8,4 @@ const (
 	InvalidTarget
 	InvalidMoveDistance
 	OutOfBoard
-	BoardIsNil
-	SubmarineNotFound
-	InvalidDirection
-	AllySubmarineAlreadyExists
-	SunkSubmarineAlreadyExists
 )

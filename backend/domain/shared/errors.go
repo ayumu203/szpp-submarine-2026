@@ -16,4 +16,5 @@ var (
 	ErrInvalidDirection           = errors.New("Error[Direction.go]: 方角が不正です．")
 	ErrAllySubmarineAlreadyExists = errors.New("Error[Board.go]: 指定した場所にはすでに味方の潜水艦がいます．")
 	ErrSunkSubmarineAlreadyExists = errors.New("Error[Board.go]: 指定した場所にはすでに沈没した潜水艦がいます．")
+	ErrSubmarineIDDuplicated      = errors.New("Error[Board.go]: SubmarineIDが重複しています．")
 )

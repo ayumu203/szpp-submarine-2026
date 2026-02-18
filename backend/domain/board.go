@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"backend/domain/shared"
+	shared "backend/domain/shared"
 )
 
 type Board struct {
@@ -30,6 +30,10 @@ func (board *Board) PlaceSubmarine(playerID shared.PlayerID, position *Position)
 	}
 	if allySubmarine != nil {
 		return shared.ErrAllySubmarineAlreadyExists
+	}
+
+	if board.submarines[submarineID] != nil {
+		return shared.ErrSubmarineIDDuplicated
 	}
 
 	board.submarines[submarineID] = submarine
