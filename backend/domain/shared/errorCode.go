@@ -8,7 +8,4 @@ const (
 	InvalidTarget
 	InvalidMoveDistance
 	OutOfBoard
-	ActionCommandInvalidParamCombination
-	ActionCommandIsNil
-	InvalidActionType
 )

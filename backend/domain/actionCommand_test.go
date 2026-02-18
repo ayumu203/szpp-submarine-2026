@@ -25,7 +25,7 @@ func TestNewActionCommandSuccess(t *testing.T) {
 			targetX:    0,
 			targetY:    0,
 			direction:  shared.North,
-			distance:   3,
+			distance:   2,
 		},
 		{
 			name:       "[NewActionCommand: 攻撃]",
@@ -74,7 +74,7 @@ func TestNewActionCommandFail(t *testing.T) {
 			targetX:       0,
 			targetY:       0,
 			direction:     shared.DirectionUnknown,
-			distance:      3,
+			distance:      2,
 			expectedError: shared.ErrActionCommandInvalidParamCombination,
 		},
 		{
@@ -84,7 +84,7 @@ func TestNewActionCommandFail(t *testing.T) {
 			targetX:       1,
 			targetY:       2,
 			direction:     shared.North,
-			distance:      3,
+			distance:      1,
 			expectedError: shared.ErrActionCommandInvalidParamCombination,
 		},
 		{
@@ -119,13 +119,23 @@ func TestNewActionCommandFail(t *testing.T) {
 		},
 		{
 			name:          "[NewActionCommand: 不正なActionType]",
-			playerId:      "p7",
+			playerId:      "p8",
 			actionType:    shared.ActionType(-1),
 			targetX:       1,
 			targetY:       2,
 			direction:     shared.DirectionUnknown,
 			distance:      0,
 			expectedError: shared.ErrInvalidActionType,
+		},
+		{
+			name:          "[NewActionCommand: 不正な移動距離]",
+			playerId:      "p9",
+			actionType:    shared.Move,
+			targetX:       0,
+			targetY:       0,
+			direction:     shared.North,
+			distance:      3,
+			expectedError: shared.ErrInvalidMoveDistance,
 		},
 	}
 
