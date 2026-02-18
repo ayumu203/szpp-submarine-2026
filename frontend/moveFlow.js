@@ -171,7 +171,6 @@ function toDirectionAndDistance(from, to) {
     return {direction, distance}
 }
 
-// ====== UI control ======
 function clearMoveHighlights() {
   $("#field td")
     .removeClass("move-clickable move-source move-destination move-candidate move-disabled");
@@ -235,7 +234,6 @@ function updateClickableControlsByPhase() {
   }
 }
 
-// ====== flow actions ======
 function startMoveFlow() {
   if (!isMyTurn()) return;
   if (moveFlowState.hasMovedThisTurn) return; // 1ターン1隻
@@ -333,7 +331,6 @@ async function confirmMoveStep2() {
   }
 }
 
-// ====== event bindings ======
 function bindMoveFlowEvents() {
   $("#btn-move").off("click.moveFlow").on("click.moveFlow", startMoveFlow);
 
