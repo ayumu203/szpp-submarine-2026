@@ -11,4 +11,6 @@ var (
 	ErrInvalidMoveDistance = errors.New("Error[Move.go]: 移動距離が不正です．")
 	ErrOutOfBoard          = errors.New("Error[Position.go]: 場所がボードの外です．")
 	ErrPositionIsNil       = errors.New("Error[Position.go]: Positionがnilです．")
+	ErrInvalidPlayerID     = errors.New("Error[Player.go]: playerIDが不正です．")
+	ErrInvalidPlayerName   = errors.New("Error[Player.go]: playerNameが不正です．")
 )
