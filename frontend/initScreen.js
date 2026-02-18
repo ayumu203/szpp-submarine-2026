@@ -101,8 +101,8 @@ async function initializeScreen() {
     // main.jsの関数を使って、潜水艦を表示する
     renderSubmarines();
 
-    // bindDisplayToggle();
-    // await renderDisplayMode();
+    bindDisplayToggle();
+    await renderDisplayMode();
 
     const data = await getMock();
     const gameState = data.State.GetGameStateResponse;
