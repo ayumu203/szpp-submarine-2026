@@ -66,18 +66,18 @@ func TestSubmarineIsSunk(t *testing.T) {
 	for _, tl := range testList {
 		t.Run(tl.name, func(t *testing.T) {
 			submarine := &Submarine{hp: tl.hp}
-			assert.Equal(t, tl.expected, submarine.IsSunk(nil))
+			assert.Equal(t, tl.expected, submarine.IsSunk())
 		})
 	}
 }
 
 func TestTakeDamage(t *testing.T) {
 	testList := []struct {
-		name            string
-		initialHp       int
-		expectedHp      int
-		expectedErr     error
-		expectedIsSunk  bool
+		name           string
+		initialHp      int
+		expectedHp     int
+		expectedErr    error
+		expectedIsSunk bool
 	}{
 		{"[TakeDamage: hpが1ならダメージ後に0になる]", 1, 0, nil, true},
 		{"[TakeDamage: hpが0ならダメージ不可]", 0, 0, shared.ErrSubmarineAlreadySunk, true},
@@ -87,21 +87,21 @@ func TestTakeDamage(t *testing.T) {
 		t.Run(tl.name, func(t *testing.T) {
 			submarine := &Submarine{hp: tl.initialHp}
 
-			err := submarine.TakeDamage(nil)
+			err := submarine.TakeDamage(1)
 			assert.ErrorIs(t, err, tl.expectedErr)
 			assert.Equal(t, tl.expectedHp, submarine.GetHp())
-			assert.Equal(t, tl.expectedIsSunk, submarine.IsSunk(nil))
+			assert.Equal(t, tl.expectedIsSunk, submarine.IsSunk())
 		})
 	}
 }
 
 func TestMoveTo(t *testing.T) {
 	testList := []struct {
-		name           string
-		initialPos     *Position
-		newPosition    *Position
-		expectedPos    *Position
-		expectedErr    error
+		name        string
+		initialPos  *Position
+		newPosition *Position
+		expectedPos *Position
+		expectedErr error
 	}{
 		{"[MoveTo: 有効な位置なら移動する]", &Position{1, 1}, &Position{2, 2}, &Position{2, 2}, nil},
 		{"[MoveTo: nil位置はエラー]", &Position{1, 1}, nil, &Position{1, 1}, shared.ErrPositionIsNil},
