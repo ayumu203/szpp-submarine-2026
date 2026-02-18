@@ -1,7 +1,7 @@
 // ゲーム開始時に、画面の初期化を行う処理を記述する
 const uiState = {
     mode: "idle",  // idle | attack | moveの3種類
-    displayMode: "ally", // ally | enemy | prediction
+    displayMode: "ally", // ally | prediction
     selectedCell: null
 };
 
