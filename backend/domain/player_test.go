@@ -53,25 +53,25 @@ func TestNewPlayerFail(t *testing.T) {
 			name:        "[NewPlayer: idが空文字]",
 			id:          "",
 			playerName:  "Alice",
-			expectedErr: share.ErrInvalidPlayerID,
+			expectedErr: shared.ErrInvalidPlayerID,
 		},
 		{
 			name:        "[NewPlayer: idが空白のみ]",
 			id:          "   ",
 			playerName:  "Alice",
-			expectedErr: share.ErrInvalidPlayerID,
+			expectedErr: shared.ErrInvalidPlayerID,
 		},
 		{
 			name:        "[NewPlayer: nameが空文字]",
 			id:          "p1",
 			playerName:  "",
-			expectedErr: share.ErrInvalidPlayerName,
+			expectedErr: shared.ErrInvalidPlayerName,
 		},
 		{
 			name:        "[NewPlayer: nameが空白のみ]",
 			id:          "p1",
 			playerName:  "   ",
-			expectedErr: share.ErrInvalidPlayerName,
+			expectedErr: shared.ErrInvalidPlayerName,
 		},
 	}
 	for _, tl := range testList {
