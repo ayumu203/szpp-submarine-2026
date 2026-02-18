@@ -8,6 +8,7 @@ const (
 	East
 	South
 	West
+	DirectionUnknown
 )
 
 func (d Direction) String() string {
