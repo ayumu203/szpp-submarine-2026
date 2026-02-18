@@ -1,7 +1,7 @@
 package domain
 
 import (
-	share "backend/domain/shared"
+	shared "backend/domain/shared"
 	"strings"
 )
 
@@ -12,10 +12,10 @@ type Player struct {
 
 func NewPlayer(id string, name string) (*Player, error) {
 	if strings.TrimSpace(id) == "" {
-		return nil, share.ErrInvalidPlayerID
+		return nil, shared.ErrInvalidPlayerID
 	}
 	if strings.TrimSpace(name) == "" {
-		return nil, share.ErrInvalidPlayerName
+		return nil, shared.ErrInvalidPlayerName
 	}
 	return &Player{
 		id:   id,
