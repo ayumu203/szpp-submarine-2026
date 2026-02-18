@@ -3,7 +3,7 @@ package domain
 import "backend/domain/shared"
 
 type ActionCommand struct {
-	playerId   string
+	playerId   shared.PlayerId
 	actionType shared.ActionType
 	target     *Position
 	direction  shared.Direction
@@ -11,7 +11,7 @@ type ActionCommand struct {
 }
 
 func NewActionCommand(
-	playerId string,
+	playerId shared.PlayerId,
 	actionType shared.ActionType,
 	target *Position,
 	direction shared.Direction,
@@ -42,9 +42,9 @@ func NewActionCommand(
 	return &actionCommand, nil
 }
 
-func (actionCommand *ActionCommand) GetPlayerId() (string, error) {
+func (actionCommand *ActionCommand) GetPlayerId() (shared.PlayerId, error) {
 	if actionCommand == nil {
-		return "", shared.ErrActionCommandIsNil
+		return shared.PlayerId(""), shared.ErrActionCommandIsNil
 	}
 	return actionCommand.playerId, nil
 }
