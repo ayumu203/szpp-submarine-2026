@@ -25,8 +25,6 @@ function clearBoardView() {
  * @param {string} marker どうやってUIに表示するか(味方の場合は"●")
  */
 function renderBoardBySubmarines(submarines, marker) {
-  
-
 
     // 沈んでたら"S"で表示するのが分かりやすそう？
 }
@@ -36,7 +34,20 @@ function renderBoardBySubmarines(submarines, marker) {
  * @param {object} predictionBoard jsonから取得した、敵の存在確率(?)
  */
 function renderPredictionBoard(predictionBoard) {
-  
+
+  /*uiStateのdisplayModeはすでにpredictionであるとrenderDisplayMode()で判定されている */
+  /*表の中身はclearBoardView()でリセットされている*/  
+
+  /*predictionBoardをもとに、表に数値を記入する*/  
+  const $rows2 = $("#field tr");
+  for (let y = 1; y <= BOARD_SIZE; y++) {
+    for (let x = 1; x <= BOARD_SIZE; x++) {
+      const prenum = predictionBoard.possibleEnemyCount[x-1][y-1];     
+      $rows2.eq(y).children("td").eq(x).text(prenum).removeClass("prediction-cell");
+    }
+  }
+   
+
 }
 
 /**
@@ -67,3 +78,4 @@ function bindDisplayToggle() {
       await renderDisplayMode();
     });
 }
+bindDisplayToggle();
