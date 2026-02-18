@@ -25,8 +25,17 @@ function clearBoardView() {
  * @param {string} marker どうやってUIに表示するか(味方の場合は"●")
  */
 function renderBoardBySubmarines(submarines, marker) {
-   console.log("潜水艦の位置を表示するよ");
-    // 沈んでたら"S"で表示するのが分かりやすそう？
+  const submarines_list = Object.values(submarines);
+
+  submarines_list.forEach((submarine) => {
+    if(submarine.x < 1||submarine.x>BOARD_SIZE || submarine.y<1||submarine.y>BOARD_SIZE)return;
+
+    if(submarine.sunk){
+      fieldTable.roes[submarine.y].cells[submarine.x].textContent="S";
+    }else{
+      fieldTable.roes[submarine.y].cells[submarine.x].textContent=marker;
+    }
+  });
 }
 
 /**
