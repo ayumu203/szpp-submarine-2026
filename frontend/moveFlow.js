@@ -118,8 +118,8 @@ function calculateMoveCandidates(source, submarines) {
         // 2マスまでなら動ける
         for (let step = 1; step <= 2; step++) {
             // 変数nx, nyを宣言し、方角dにstepだけ進んだ先の座標を格納する
-            const nx =  d.dx * step;
-            const ny =  d.dy * step;
+            const nx =  source.x + d.dx * step;
+            const ny =  source.y + d.dy * step;
             
             if (nx < 1 || nx > BOARD_SIZE || ny < 1 || ny > BOARD_SIZE) break;
 
